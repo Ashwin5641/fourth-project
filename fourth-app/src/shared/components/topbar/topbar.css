@@ -1,0 +1,80 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+}
+
+.topbar {
+    font-size: 16px;
+    background-color: #333333;
+    height: 50px;
+    padding: 0 8vw;
+    color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topbar .topbar-contact {
+    display: flex;
+    gap: 5px;
+}
+
+
+/* responsive design for the topbar of small screens and large screens */
+
+@media (min-width: 320px) and (max-width: 479px) {
+    .topbar {
+        padding: 0 15px;
+        justify-content: center;
+        height: 45px;
+    }
+
+    .topbar .topbar-contact {
+        display: none;
+    }
+
+    .topbar .topbar-return {
+        text-align: center;
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 600px) {
+    .topbar {
+        padding: 0 15x;
+        height: 45px;
+        justify-content: center;
+    }
+
+    .topbar .topbar-contact {
+        display: none;
+    }
+
+    .topbar .topbar-return {
+        text-align: center;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 767px) {
+    .topbar {
+        padding: 0px 15px;
+        height: 45px;
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .topbar {
+        padding: 0 30px;
+        height: 45px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1499px) {
+    .topbar {
+        padding: 0 30px;
+    }
+}

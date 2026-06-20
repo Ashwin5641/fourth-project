@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.admin-sidebar {
+    width: 250px;
+    height: 100%;
+    background-color: #1e293b;
+    padding: 20px;
+}
+
+.admin-sidebar h4 {
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.admin-sidebar ul {
+    margin-top: 30px;
+}
+
+.admin-sidebar-menu {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.admin-sidebar ul li {
+    padding: 15px 0;
+    border-bottom: 1px solid #eeeeee1a;
+}
