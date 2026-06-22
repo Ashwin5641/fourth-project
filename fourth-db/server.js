@@ -27,6 +27,8 @@ app.use(session({
 
 app.use('/auth', require('./routes/authRoutes'));
 
+app.use('/admin/hero', require('./routes/heroRoutes'));
+
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}`)
 })

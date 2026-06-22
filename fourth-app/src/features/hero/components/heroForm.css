@@ -5,11 +5,6 @@
     font-family: 'Outfit', sans-serif;
 }
 
-.admin-layout {
-    display: flex;
-    height: 100vh;
-}
-
-.admin-content {
-    flex: 1;
+.dash-hero-form-comp > form {
+    margin-top: 15px;
 }
