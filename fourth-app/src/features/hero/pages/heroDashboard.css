@@ -22,3 +22,21 @@
 .hero-dash-form {
     margin-top: 20px;
 }
+
+.hero-dash-table table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hero-dash-table th,
+.hero-dash-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.hero-dash-table th {
+    background-color: #1e293b;
+    color: white;
+}
