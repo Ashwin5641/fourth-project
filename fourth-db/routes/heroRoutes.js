@@ -5,5 +5,7 @@ const upload = require('../middlewares/upload');
 
 router.post('/', upload.single('image'), heroController.addHero);
 router.get('/', heroController.getAllHero);
+router.delete('/:id', heroController.deleteHero);
+router.put('/:id', upload.single('image'), heroController.updateHero);
 
 module.exports = router;

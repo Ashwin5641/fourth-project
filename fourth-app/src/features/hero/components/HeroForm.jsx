@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './heroForm.css';
 
-import { heroAdd } from "../api/heroApi";
+import { heroAdd, heroUpdate } from "../api/heroApi";
 
-export default function HeroForm() {
+export default function HeroForm({onSuccess, editHero, setEditHero}) {
 
     const [form, setForm] = useState({
         title: '',
@@ -14,6 +14,28 @@ export default function HeroForm() {
     })
 
     const [fileKey, setFileKey] = useState(Date.now());
+
+    useEffect(() => {
+        if (editHero) {
+            setForm({
+                title: editHero.title,
+                subtitle: editHero.subtitle,
+                image: null,
+                button_text: editHero.button_text,
+                button_url: editHero.button_url
+            });
+        } else {
+            setForm({
+                title: '',
+                subtitle: '',
+                image: null,
+                button_text: '',
+                button_url: ''
+            });
+
+            setFileKey(Date.now());
+        }
+    }, [editHero]);
 
     const handleChange = (e) => {
         setForm({
@@ -41,7 +63,12 @@ export default function HeroForm() {
         formData.append('button_url', form.button_url);
 
         try {
-            await heroAdd(formData);
+            if (editHero) {
+                await heroUpdate(editHero.id, formData);
+                setEditHero(null);
+            } else {
+                await heroAdd(formData);
+            }
 
             setForm({
                 title: '',
@@ -53,6 +80,8 @@ export default function HeroForm() {
 
             setFileKey(Date.now())
 
+            onSuccess && onSuccess();
+
         } catch (err) {
             console.log(err);
         }
@@ -60,14 +89,19 @@ export default function HeroForm() {
 
     return (
         <div className="dash-hero-form-comp">
-            <h4>ADD SLIDE</h4>
+            <h4>{editHero ? 'EDIT SLIDE' : 'ADD SLIDE'}</h4>
             <form onSubmit={handleSubmit}>
                 <input name="title" value={form.title} onChange={handleChange} type="text" placeholder="Title"/><br /><br />
                 <input name="subtitle" value={form.subtitle} onChange={handleChange} type="text" placeholder="Subtitle"/><br /><br />
                 <input key={fileKey} name="image" type="file" onChange={handleFileChange} /><br /><br />
                 <input name="button_text" value={form.button_text} onChange={handleChange} type="text" placeholder="Button Text" /><br /><br />
                 <input name="button_url" value={form.button_url} onChange={handleChange} type="text" placeholder="Button URL" /><br /><br />
-                <button>ADD</button>
+                <button>{editHero ? 'EDIT' : 'ADD'}</button>
+                {editHero && (
+                    <button type="button" onClick={() => setEditHero(null)}>
+                        Cancel
+                    </button>
+                )}
             </form>
         </div>
     )

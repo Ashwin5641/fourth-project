@@ -3,28 +3,40 @@ import './heroDashboard.css'
 
 import HeroForm from "../components/HeroForm";
 
-import { getAllHeroes } from "../api/heroApi";
+import { getAllHeroes, heroDelete } from "../api/heroApi";
 
 export default function HeroDashboard() {
 
     const [hero, setHero] = useState([]);
+    const [editHero, setEditHero] = useState(null);
+
+    const fetchHeroes = async () => {
+        try {
+            const res = await getAllHeroes();
+            setHero(res?.data || [])
+        } catch (err) {
+            console.log(err);
+            setHero([])
+        }
+    }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await getAllHeroes();
-                if (res.success) {
-                    setHero(res.data);
-                } else {
-                    setHero([]);
-                }
-            } catch (err) {
-
-            }
-        }
-
-        fetchData();
+        fetchHeroes();
     }, [])
+
+
+    const onDeleteHero = async (id) => {
+        try {
+            await heroDelete(id);
+            fetchHeroes();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const onEditHero = async (hero) => {
+        setEditHero(hero)
+    }
 
     return (
         <>
@@ -33,7 +45,7 @@ export default function HeroDashboard() {
                     <h4>Hero Management</h4>
                 </div>
                 <div className="hero-dash-form">
-                    <HeroForm />
+                    <HeroForm onSuccess={fetchHeroes} editHero={editHero} setEditHero={setEditHero} />
                 </div>
                 <div className="hero-dash-table">
                     <table>
@@ -44,6 +56,7 @@ export default function HeroDashboard() {
                                 <th>Image</th>
                                 <th>Button Text</th>
                                 <th>Button URL</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -55,6 +68,10 @@ export default function HeroDashboard() {
                                     <td>{slide.image}</td>
                                     <td>{slide.button_text}</td>
                                     <td>{slide.button_url}</td>
+                                    <td>
+                                        <button onClick={() => onEditHero(slide)}>Edit</button>
+                                        <button onClick={() => onDeleteHero(slide.id)}>Delete</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
