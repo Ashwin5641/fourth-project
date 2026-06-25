@@ -2,6 +2,14 @@ const db = require('../config/db');
 
 const heroModel = {
 
+    getHeroById: async (id) => {
+        const [rows] = await db.query(
+            'SELECT * FROM hero_slides WHERE id = ?',
+            [id]
+        );
+        return rows[0]
+    },
+
     getAllHero: async () => {
         const [rows] = await db.query(
             'SELECT * FROM hero_slides WHERE is_active = true ORDER BY id DESC'

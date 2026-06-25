@@ -5,10 +5,15 @@ import HeroForm from "../components/HeroForm";
 
 import { getAllHeroes, heroDelete } from "../api/heroApi";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+
 export default function HeroDashboard() {
 
     const [hero, setHero] = useState([]);
     const [editHero, setEditHero] = useState(null);
+
+    const [imageOverlay, setImageOverlay] = useState(null);
 
     const fetchHeroes = async () => {
         try {
@@ -65,7 +70,18 @@ export default function HeroDashboard() {
                                 <tr key={slide.id}>
                                     <td>{slide.title}</td>
                                     <td>{slide.subtitle}</td>
-                                    <td>{slide.image}</td>
+                                    <td>
+                                        {slide.image}
+                                        <span
+                                            onClick={() =>
+                                                setImageOverlay(
+                                                    `http://localhost:3000/uploads/${slide.image}`
+                                                )
+                                            }
+                                        >
+                                            <FontAwesomeIcon icon={faEye} />
+                                        </span>
+                                    </td>
                                     <td>{slide.button_text}</td>
                                     <td>{slide.button_url}</td>
                                     <td>
@@ -77,6 +93,31 @@ export default function HeroDashboard() {
                         </tbody>
                     </table>
                 </div>
+                {
+                    imageOverlay && (
+                        <div
+                            className="hero-dash-img-over"
+                            onClick={() => setImageOverlay(null)}
+                        >
+                            <div
+                                className="hero-dash-img-prev"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <img
+                                    src={imageOverlay}
+                                    alt="Hero Preview"
+                                />
+
+                                <button
+                                    className="close-btn"
+                                    onClick={() => setImageOverlay(null)}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </>
     )

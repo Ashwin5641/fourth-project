@@ -1,5 +1,10 @@
 import api from '../../../api/axios';
 
+export const getHeroById = async (id) => {
+    const res = await api.get(`/admin/hero/${id}`);
+    return res
+}
+
 export const getAllHeroes = async () => {
     const res = await api.get('/admin/hero');
     return res;
