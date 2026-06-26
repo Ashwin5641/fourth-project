@@ -12,7 +12,7 @@ const heroModel = {
 
     getAllHero: async () => {
         const [rows] = await db.query(
-            'SELECT * FROM hero_slides WHERE is_active = true ORDER BY id DESC'
+            'SELECT * FROM hero_slides ORDER BY id DESC'
         );
         return rows;
     },

@@ -61,6 +61,7 @@ export default function HeroDashboard() {
                                 <th>Image</th>
                                 <th>Button Text</th>
                                 <th>Button URL</th>
+                                <th>Is Active</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -84,6 +85,11 @@ export default function HeroDashboard() {
                                     </td>
                                     <td>{slide.button_text}</td>
                                     <td>{slide.button_url}</td>
+                                    <td>
+                                        {
+                                            slide.is_active === 1 ? 'Active' : 'Inactive'
+                                        }
+                                    </td>
                                     <td>
                                         <button onClick={() => onEditHero(slide)}>Edit</button>
                                         <button onClick={() => onDeleteHero(slide.id)}>Delete</button>

@@ -96,7 +96,19 @@ exports.updateHero = async (req, res) => {
             });
         }
 
-        const image = req.file ? req.file.filename : existingHero.image;
+        let image = existingHero.image;
+
+        if (req.file) {
+            image = req.file.filename;
+
+            if (existingHero.image) {
+                const oldImagePath = path.join(__dirname, '../uploads', existingHero.image );
+
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath)
+                }
+            }
+        }
 
         const result = await heroModel.updateHero(id, title, subtitle, image, button_text, button_url);
 
@@ -117,13 +129,25 @@ exports.deleteHero = async (req, res) => {
     const {id} = req.params;
 
     try {
-        const result = await heroModel.deleteHero(id);
 
-        if (result === 0) {
+        const hero = await heroModel.getHeroById(id);
+
+        if (!hero) {
             return res.status(404).json({
                 success: false,
                 message: 'Hero not found'
-            });
+            })
+        }
+
+        const result = await heroModel.deleteHero(id);
+
+
+        if (hero.image) {
+            imagePath = path.join(__dirname, '../uploads', hero.image);
+
+            if(fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath)
+            }
         }
 
         return res.status(200).json({
