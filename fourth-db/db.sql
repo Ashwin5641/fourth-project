@@ -27,3 +27,18 @@ CREATE TABLE hero_slides (
 
 CREATE INDEX idx_active_order 
 ON hero_slides(is_active, display_order);
+
+CREATE TABLE categories(
+ 	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(150) UNIQUE NOT NULL,
+    parent_id INT NULL,
+    image VARCHAR(500) NOT NULL,
+    description TEXT,
+    sort_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL,
+    INDEX idx_parent(parent_id)
+) 

@@ -3,6 +3,8 @@ import ProtectedRoute from "../shared/guards/ProtectedRoute";
 
 import HeroDashboard from "../features/hero/pages/HeroDashboard";
 
+import AdminCategory from "./pages/categories/AdminCategory";
+
 const adminRoutes = [
     {
         path: '/admin',
@@ -19,6 +21,10 @@ const adminRoutes = [
             {
                 path: 'hero',
                 element: <HeroDashboard />
+            },
+            {
+                path: 'categories',
+                element: <AdminCategory />
             }
         ]
     }
