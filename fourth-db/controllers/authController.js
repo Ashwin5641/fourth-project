@@ -139,7 +139,6 @@ exports.refresh = async (req, res) => {
 exports.logout = async (req, res) => {
     res.clearCookie('refreshToken');
     return res.status(403).json({
-        success: false,
-        message: 'Access Denied'
+        success: false
     })
 }

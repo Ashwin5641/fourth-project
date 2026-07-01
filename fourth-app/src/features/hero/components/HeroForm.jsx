@@ -89,7 +89,7 @@ export default function HeroForm({onSuccess, editHero, setEditHero}) {
 
     return (
         <div className="dash-hero-form-comp">
-            <h4>{editHero ? 'EDIT SLIDE' : 'ADD SLIDE'}</h4>
+            <h4>{editHero ? 'Edit Slide' : 'Add Slide'}</h4>
             <form onSubmit={handleSubmit}>
                 <input name="title" value={form.title} onChange={handleChange} type="text" placeholder="Title"/><br /><br />
                 <input name="subtitle" value={form.subtitle} onChange={handleChange} type="text" placeholder="Subtitle"/><br /><br />

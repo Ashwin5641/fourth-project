@@ -5,10 +5,10 @@
     font-family: 'Outfit', sans-serif;
 }
 
-.dash-hero-form-comp > h4 {
+.category-dash-form-comp > h4 {
     text-transform: uppercase;
 }
 
-.dash-hero-form-comp > form {
+.category-dash-form-comp > form {
     margin-top: 15px;
 }

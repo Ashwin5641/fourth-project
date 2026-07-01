@@ -17,6 +17,14 @@ const categoryModel = {
         return rows[0]
     },
 
+    getCategoryBySlug: async (slug) => {
+        const [rows] = await db.query(
+            'SELECT * FROM categories WHERE slug = ?',
+            [slug]
+        );
+        return rows[0]
+    },
+
     createCategory: async (name, slug, parent_id, image, description) => {
         const [result] = await db.query(
             'INSERT INTO categories (name, slug, parent_id, image, description) VALUES (?, ?, ?, ?, ?)',
@@ -25,10 +33,10 @@ const categoryModel = {
         return result.insertId
     },
 
-    updateCategory: async (id, name, slug, parent_id, image, description) => {
+    updateCategory: async (id, name, slug, parentId, image, description) => {
         const [result] = await db.query(
             'UPDATE categories SET name = ?, slug = ?, parent_id = ?, image = ?, description = ? WHERE id = ?',
-            [name, slug, parent_id, image, description, id]
+            [name, slug, parentId, image, description, id]
         );
         return result.affectedRows;
     },
