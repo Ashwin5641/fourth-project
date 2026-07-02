@@ -47,6 +47,24 @@ const categoryModel = {
             [id]
         );
         return result.affectedRows;
+    },
+
+    getAllCategoriesWithParent: async () => {
+        const [rows] = db.query(
+            `
+                SELECT 
+                c.id,
+                c.name,
+                c.slug,
+                c.image,
+                c.description,
+                c.parent_id,
+                p.name as parent_name
+                FROM categories c
+                LEFT JOIN categories p
+                ON c.parent_id = p.id
+            `
+        )
     }
 }
 

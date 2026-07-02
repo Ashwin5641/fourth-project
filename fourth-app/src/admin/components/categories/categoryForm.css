@@ -12,3 +12,11 @@
 .category-dash-form-comp > form {
     margin-top: 15px;
 }
+
+.category-dash-form-comp > form > * {
+    width: 200px;
+}
+
+.category-dash-form-comp > form > button {
+    width: fit-content;
+}

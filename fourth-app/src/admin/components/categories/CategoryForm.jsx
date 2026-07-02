@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import Select from "react-select";
+
 import './categoryForm.css'
 
 import { createCategory, getAllCategories } from "../../api/categoryApi";
 
-export default function CategoryForm({onSuccess}) {
-
-    const [parentCategories, setParentCategories] = useState([]);
+export default function CategoryForm({onSuccess, categories}) {
 
     const [fileKey, setFileKey] = useState(Date.now());
 
@@ -17,17 +17,15 @@ export default function CategoryForm({onSuccess}) {
         description: ''
     })
 
-    useEffect(() => {
-        const fetchParentId = async () => {
-            try {
-                const res = await getAllCategories();
-                setParentCategories(res.data)
-            } catch (err) {
-                console.error(err)
-            }
-        }
-        fetchParentId()
-    }, [])
+    const [message, setMessage] = useState('');
+
+    const categoryOptions = [
+        {value: '', label: 'No parent'},
+        ...categories.map((category) => ({
+            value: category.id,
+            label: category.name
+        }))
+    ]
 
     const handleChange = (e) => {
         setForm({
@@ -55,10 +53,24 @@ export default function CategoryForm({onSuccess}) {
         formData.append('description', form.description);
 
         try {
-            await createCategory(formData);
+            data = await createCategory(formData);
+
+            if (data.success) {
+                setMessage('created successfully')
+            } else {
+                setMessage(data.message)
+            }
         } catch (err) {
             console.error(err)
         }
+
+        setForm({
+            name: '',
+            slug: '',
+            parent_id: '',
+            image: '',
+            description: '',
+        })
 
         setFileKey(Date.now());
 
@@ -73,15 +85,25 @@ export default function CategoryForm({onSuccess}) {
             <form onSubmit={handleSubmit} key={fileKey}>
                 <input name="name" type="text" placeholder="Enter category" onChange={handleChange} required /><br /><br />
                 <input name="slug" type="text" placeholder="Enter slug" onChange={handleChange} required /><br /><br />
-                <select name="parent_id" id="" onChange={handleChange}>
-                    {parentCategories.map((category) => (
-                        <option value={category.id} key={category.id}>{category.name}</option>
-                    ))}
-                </select><br /><br />
+                <Select
+                    options={categoryOptions}
+                    placeholder="Select Parent Category"
+                    isSearchable
+                    defaultValue={categoryOptions[0]}
+                    onChange={(selectedOption) =>
+                        setForm({
+                            ...form,
+                            parent_id: selectedOption.value
+                        })
+                    }
+                /><br />
                 <input name="image" type="file" onChange={handleFileChange} required /><br /><br />
                 <input name="description" type="text" placeholder="Enter description" onChange={handleChange} required /><br /><br />
                 <button>Add</button>
             </form>
+            {
+                message && <p>{message}</p>
+            }
         </div>
     )
 }

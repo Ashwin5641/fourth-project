@@ -25,7 +25,6 @@ export default function AdminCategory() {
     const handleDelete = async (id) => {
         try {
             await deleteCategory(id);
-            console.log('deleted')
             fetchCategories();
         } catch (err) {
             console.error(err)
@@ -39,7 +38,7 @@ export default function AdminCategory() {
                     <h4>Category Management</h4>
                 </div>
                 <div className="category-dash-form">
-                    <CategoryForm onSuccess={fetchCategories} />
+                    <CategoryForm onSuccess={fetchCategories} categories={categories} />
                 </div>
                 <div className="category-dash-table">
                     <table>
