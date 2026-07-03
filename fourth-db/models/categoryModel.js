@@ -50,21 +50,24 @@ const categoryModel = {
     },
 
     getAllCategoriesWithParent: async () => {
-        const [rows] = db.query(
+        const [rows] = await db.query(
             `
-                SELECT 
-                c.id,
-                c.name,
-                c.slug,
-                c.image,
-                c.description,
-                c.parent_id,
-                p.name as parent_name
+                SELECT
+                    c.id,
+                    c.name,
+                    c.slug,
+                    c.image,
+                    c.description,
+                    p.name AS parent_name,
+                    gp.name AS grandparent_name
                 FROM categories c
                 LEFT JOIN categories p
-                ON c.parent_id = p.id
+                    ON c.parent_id = p.id
+                LEFT JOIN categories gp
+                    ON p.parent_id = gp.id;
             `
-        )
+        );
+        return rows;
     }
 }
 

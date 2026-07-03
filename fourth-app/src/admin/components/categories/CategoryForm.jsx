@@ -3,9 +3,9 @@ import Select from "react-select";
 
 import './categoryForm.css'
 
-import { createCategory, getAllCategories } from "../../api/categoryApi";
+import { createCategory, updateCategory } from "../../api/categoryApi";
 
-export default function CategoryForm({onSuccess, categories}) {
+export default function CategoryForm({onSuccess, categories, editCategory, setEditCategory}) {
 
     const [fileKey, setFileKey] = useState(Date.now());
 
@@ -19,11 +19,37 @@ export default function CategoryForm({onSuccess, categories}) {
 
     const [message, setMessage] = useState('');
 
+    useEffect(() => {
+        if (editCategory) {
+            setForm({
+                name: editCategory.name,
+                slug: editCategory.slug,
+                parent_id: editCategory.parent_id,
+                image: null,
+                description: editCategory.description
+            })
+        } else {
+            setForm({
+                name: '',
+                slug: '',
+                parent_id: '',
+                image: null,
+                description: '',
+            })
+        }
+
+        setFileKey(Date.now());
+    }, [editCategory])
+
     const categoryOptions = [
-        {value: '', label: 'No parent'},
+        {value: null, label: 'No parent'},
         ...categories.map((category) => ({
             value: category.id,
-            label: category.name
+            label: category.grandparent_name
+                ? `${category.name} - ${category.parent_name} - ${category.grandparent_name}`
+                : category.parent_name
+                ? `${category.name} - ${category.parent_name}`
+                : category.name
         }))
     ]
 
@@ -48,17 +74,16 @@ export default function CategoryForm({onSuccess, categories}) {
 
         formData.append('name', form.name);
         formData.append('slug', form.slug);
-        formData.append('parent_id', form.parent_id);
+        formData.append('parent_id', form.parent_id || '');
         formData.append('image', form.image);
         formData.append('description', form.description);
 
         try {
-            data = await createCategory(formData);
-
-            if (data.success) {
-                setMessage('created successfully')
+            if (editCategory) {
+                await updateCategory(editCategory.id, formData);
+                setEditCategory(null)
             } else {
-                setMessage(data.message)
+                await createCategory(formData);
             }
         } catch (err) {
             console.error(err)
@@ -68,7 +93,7 @@ export default function CategoryForm({onSuccess, categories}) {
             name: '',
             slug: '',
             parent_id: '',
-            image: '',
+            image: null,
             description: '',
         })
 
@@ -83,13 +108,14 @@ export default function CategoryForm({onSuccess, categories}) {
         <div className="category-dash-form-comp">
             <h4>Add Category</h4>
             <form onSubmit={handleSubmit} key={fileKey}>
-                <input name="name" type="text" placeholder="Enter category" onChange={handleChange} required /><br /><br />
-                <input name="slug" type="text" placeholder="Enter slug" onChange={handleChange} required /><br /><br />
+                <input name="name" type="text" placeholder="Enter category" value={form.name} onChange={handleChange} required /><br /><br />
+                <input name="slug" type="text" placeholder="Enter slug" value={form.slug} onChange={handleChange} required /><br /><br />
                 <Select
                     options={categoryOptions}
                     placeholder="Select Parent Category"
                     isSearchable
-                    defaultValue={categoryOptions[0]}
+                    maxMenuHeight={200}
+                    value={categoryOptions.find(option => option.value === form.parent_id)}
                     onChange={(selectedOption) =>
                         setForm({
                             ...form,
@@ -97,9 +123,9 @@ export default function CategoryForm({onSuccess, categories}) {
                         })
                     }
                 /><br />
-                <input name="image" type="file" onChange={handleFileChange} required /><br /><br />
-                <input name="description" type="text" placeholder="Enter description" onChange={handleChange} required /><br /><br />
-                <button>Add</button>
+                <input name="image" type="file" onChange={handleFileChange} /><br /><br />
+                <input name="description" type="text" value={form.description} placeholder="Enter description" onChange={handleChange} required /><br /><br />
+                <button>{editCategory ? "Update" : "Add"}</button>
             </form>
             {
                 message && <p>{message}</p>

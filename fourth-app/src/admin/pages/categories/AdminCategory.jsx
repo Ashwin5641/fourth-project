@@ -3,11 +3,13 @@ import './adminCategory.css';
 
 import CategoryForm from "../../components/categories/CategoryForm";
 
-import { getAllCategories, deleteCategory } from "../../api/categoryApi";
+import { getAllCategoriesWithParent, deleteCategory } from "../../api/categoryApi";
 
 export default function AdminCategory() {
 
     const [categories, setCategories] = useState([]);
+
+    const [editCategory, setEditCategory] = useState(null);
 
     useEffect(() => {
         fetchCategories();
@@ -15,7 +17,7 @@ export default function AdminCategory() {
 
     const fetchCategories = async () => {
         try {
-            const res = await getAllCategories();
+            const res = await getAllCategoriesWithParent();
             setCategories(res.data)
         } catch (err) {
             console.error(err)
@@ -31,6 +33,10 @@ export default function AdminCategory() {
         }
     }
 
+    const onEditCategory = async (edit) => {
+        setEditCategory(edit)
+    }
+
     return (
         <>
             <div className="category-dash">
@@ -38,7 +44,7 @@ export default function AdminCategory() {
                     <h4>Category Management</h4>
                 </div>
                 <div className="category-dash-form">
-                    <CategoryForm onSuccess={fetchCategories} categories={categories} />
+                    <CategoryForm onSuccess={fetchCategories} categories={categories} editCategory={editCategory} setEditCategory={setEditCategory} />
                 </div>
                 <div className="category-dash-table">
                     <table>
@@ -46,7 +52,8 @@ export default function AdminCategory() {
                             <tr>
                                 <th>Name</th>
                                 <th>Slug</th>
-                                <th>Parent Id</th>
+                                <th>Parent Name</th>
+                                <th>Great Parent</th>
                                 <th>Image</th>
                                 <th>Description</th>
                                 <th>Action</th>
@@ -57,11 +64,12 @@ export default function AdminCategory() {
                                 <tr key={category.id}>
                                     <td>{category.name}</td>
                                     <td>{category.slug}</td>
-                                    <td>{category.parent_id}</td>
+                                    <td>{category.parent_name}</td>
+                                    <td>{category.grandparent_name}</td>
                                     <td>{category.image}</td>
                                     <td>{category.description}</td>
                                     <td>
-                                        <button>Edit</button>
+                                        <button onClick={() => onEditCategory(category)}>Edit</button>
                                         <button onClick={() => handleDelete(category.id)}>Delete</button>
                                     </td>
                                 </tr>

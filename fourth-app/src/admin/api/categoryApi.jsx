@@ -14,7 +14,21 @@ export const createCategory = async (formData) => {
     return res;
 }
 
+export const updateCategory = async (id, formData) => {
+    const res = await api.put(`/admin/category/${id}`, formData, {
+        headers: {
+            'Content-Type' : 'multipart/form-data'
+        }
+    });
+    return res;
+}
+
 export const deleteCategory = async (id) => {
     const res = await api.delete(`/admin/category/${id}`);
+    return res;
+}
+
+export const getAllCategoriesWithParent = async () => {
+    const res = await api.get('/admin/category');
     return res;
 }

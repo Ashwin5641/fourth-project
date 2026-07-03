@@ -11,7 +11,37 @@ exports.getAllCategories = async (req, res) => {
             data: categories
         })
     } catch (err) {
-        console.error(err)
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'please try again later'
+        })
+    }
+}
+
+exports.getCategoryById = async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        const category = await categoryModel.getCategoryById(id);
+
+        if (!category) {
+            return res.status(404).json({
+                success: false,
+                message: 'No category found'
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: category
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
     }
 }
 
@@ -82,6 +112,67 @@ exports.deleteCategory = async (req, res) => {
             message: 'Category deleted successfully!'
         })
 
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
+    }
+}
+
+exports.getAllCategoriesWithParent = async (req, res) => {
+    try {
+        const categoryWithParent = await categoryModel.getAllCategoriesWithParent();
+
+        return res.status(200).json({
+            success: true,
+            data: categoryWithParent
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
+    }
+}
+
+exports.updateCategory = async (req, res) => {
+    const {id} = req.params;
+    const {name, slug, parent_id, description} = req.body;
+
+    try {
+        const existingCategory = await categoryModel.getCategoryById(id);
+
+        if (!existingCategory) {
+            return res.status(404).json({
+                success: false,
+                message: 'No category found'
+            })
+        }
+
+        let image = existingCategory.image;
+
+
+        if (req.file) {
+            image = req.file.filename;
+
+            if (existingCategory.image) {
+                const oldImagePath = path.join(__dirname, '../uploads', existingCategory.image);
+
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath)
+                }
+            }
+        }
+
+        const result = await categoryModel.updateCategory(id, name, slug, parent_id, image, description);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Category updated successfully'
+        })
     } catch (err) {
         console.error(err);
         return res.status(500).json({
