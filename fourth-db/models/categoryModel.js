@@ -25,10 +25,10 @@ const categoryModel = {
         return rows[0]
     },
 
-    createCategory: async (name, slug, parent_id, image, description) => {
+    createCategory: async (name, slug, parentId, image, description) => {
         const [result] = await db.query(
             'INSERT INTO categories (name, slug, parent_id, image, description) VALUES (?, ?, ?, ?, ?)',
-            [name, slug, parent_id, image, description]
+            [name, slug, parentId, image, description]
         );
         return result.insertId
     },

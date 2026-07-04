@@ -7,6 +7,8 @@
 
 .hero-dash {
     padding: 20px;
+    overflow-y: scroll;
+    height: 100%;
 }
 
 .hero-dash-header {

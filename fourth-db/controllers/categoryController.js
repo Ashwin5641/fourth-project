@@ -141,6 +141,7 @@ exports.getAllCategoriesWithParent = async (req, res) => {
 exports.updateCategory = async (req, res) => {
     const {id} = req.params;
     const {name, slug, parent_id, description} = req.body;
+    const parentId = parent_id || null;
 
     try {
         const existingCategory = await categoryModel.getCategoryById(id);
@@ -154,7 +155,6 @@ exports.updateCategory = async (req, res) => {
 
         let image = existingCategory.image;
 
-
         if (req.file) {
             image = req.file.filename;
 
@@ -167,7 +167,7 @@ exports.updateCategory = async (req, res) => {
             }
         }
 
-        const result = await categoryModel.updateCategory(id, name, slug, parent_id, image, description);
+        const result = await categoryModel.updateCategory(id, name, slug, parentId, image, description);
 
         return res.status(200).json({
             success: true,
