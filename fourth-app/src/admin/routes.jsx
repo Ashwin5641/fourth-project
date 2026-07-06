@@ -4,6 +4,7 @@ import ProtectedRoute from "../shared/guards/ProtectedRoute";
 import HeroDashboard from "../features/hero/pages/HeroDashboard";
 
 import AdminCategory from "./pages/categories/AdminCategory";
+import AdminBrands from "./pages/brands/AdminBrands";
 
 const adminRoutes = [
     {
@@ -25,6 +26,10 @@ const adminRoutes = [
             {
                 path: 'categories',
                 element: <AdminCategory />
+            }, 
+            {
+                path: 'brands',
+                element: <AdminBrands />
             }
         ]
     }

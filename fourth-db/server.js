@@ -31,6 +31,8 @@ app.use('/admin/hero', require('./routes/heroRoutes'));
 
 app.use('/admin/category', require('./routes/categoryRoutes'));
 
+app.use('/admin/brands', require('./routes/brandsRoutes'));
+
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}`)
 })

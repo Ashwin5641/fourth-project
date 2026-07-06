@@ -106,7 +106,7 @@ export default function CategoryForm({onSuccess, categories, editCategory, setEd
 
     return (
         <div className="category-dash-form-comp">
-            <h4>Add Category</h4>
+            <h4>{editCategory ? 'Edit Category' : 'Add Category'}</h4>
             <form onSubmit={handleSubmit} key={fileKey}>
                 <input name="name" type="text" placeholder="Enter category" value={form.name} onChange={handleChange} required /><br /><br />
                 <input name="slug" type="text" placeholder="Enter slug" value={form.slug} onChange={handleChange} required /><br /><br />
@@ -126,6 +126,9 @@ export default function CategoryForm({onSuccess, categories, editCategory, setEd
                 <input name="image" type="file" onChange={handleFileChange} /><br /><br />
                 <input name="description" type="text" value={form.description} placeholder="Enter description" onChange={handleChange} required /><br /><br />
                 <button>{editCategory ? "Update" : "Add"}</button>
+                {
+                    editCategory && <button onClick={() => setEditCategory(null)}>Cancel</button>
+                }
             </form>
             {
                 message && <p>{message}</p>
