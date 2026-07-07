@@ -33,6 +33,8 @@ app.use('/admin/category', require('./routes/categoryRoutes'));
 
 app.use('/admin/brands', require('./routes/brandsRoutes'));
 
+app.use('/admin/products', require('./routes/productsRoutes'));
+
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}`)
 })

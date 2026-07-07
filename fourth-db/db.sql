@@ -53,3 +53,20 @@ CREATE TABLE brands (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
+
+CREATE TABLE products (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    brand_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    short_description VARCHAR(255),
+    description TEXT,
+    featured ENUM('yes', 'no') DEFAULT 'no',
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT,
+    FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE RESTRICT
+)
