@@ -3,9 +3,9 @@ import './productsForm.css';
 
 import Select from "react-select";
 
-import { getAllCategories, getAllBrands, createProducts } from "../../api/productsApi";
+import { getAllCategories, getAllBrands, createProducts, updateProduct } from "../../api/productsApi";
 
-export default function ProductsForm() {
+export default function ProductsForm({onSuccess, editProduct, setEditProduct}) {
 
     const [form, setForm] = useState({
         name: '',
@@ -26,6 +26,34 @@ export default function ProductsForm() {
         fetchAllCategories();
         fetchAllBrands();
     }, [])
+
+    useEffect(() => {
+        if (editProduct) {
+            setForm({
+                name: editProduct.name,
+                slug: editProduct.slug,
+                category_id: editProduct.category_id,
+                brand_id: editProduct.brand_id,
+                short_description: editProduct.short_description,
+                description: editProduct.description,
+                featured: editProduct.featured,
+                status: editProduct.status,
+                sort_order: editProduct.sort_order
+            })
+        } else {
+            setForm({
+                name: '',
+                slug: '',
+                category_id: '',
+                brand_id: '',
+                short_description: '',
+                description: '',
+                featured: 'no',
+                status: 'active',
+                sort_order: ''
+            })
+        }
+    }, [editProduct])
 
     const fetchAllCategories = async () => {
         try {
@@ -74,24 +102,45 @@ export default function ProductsForm() {
         e.preventDefault();
 
         try {
-            const res = await createProducts(form);
-            return res;
+            if (editProduct) {
+                await updateProduct(editProduct.id, form);
+                setEditProduct(null)
+            } else {
+                await createProducts(form);
+            }
         } catch (err) {
             console.error(err)
+        }
+
+        setForm({
+            name: '',
+            slug: '',
+            category_id: '',
+            brand_id: '',
+            short_description: '',
+            description: '',
+            featured: 'no',
+            status: 'active',
+            sort_order: ''
+        })
+
+        if (onSuccess) {
+            onSuccess()
         }
     }
 
     return (
         <div className="products-dash-form-comp">
-            <h4>Add Product</h4>
+            <h4>{editProduct ? 'Edit Product' : 'Add Product'}</h4>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="name" onChange={handleChange} placeholder="Enter product name" /><br /><br />
-                <input type="text" name="slug" onChange={handleChange} placeholder="Enter product slug" /><br /><br />
+                <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Enter product name" /><br /><br />
+                <input type="text" name="slug" value={form.slug} onChange={handleChange} placeholder="Enter product slug" /><br /><br />
                 <Select 
                     options={categoryOptions}
                     isSearchable
                     placeholder="Select Category"
                     maxMenuHeight={200}
+                    value={categoryOptions.find(option => option.value === form.category_id)}
                     onChange={(selectedOption) => 
                         setForm({
                             ...form,
@@ -104,6 +153,7 @@ export default function ProductsForm() {
                     isSearchable
                     placeholder='Select Brand'
                     maxMenuHeight={200}
+                    value={brandsOptions.find(option => option.value === form.brand_id)}
                     onChange={(selectedOption) => {
                         setForm({
                             ...form,
@@ -111,8 +161,8 @@ export default function ProductsForm() {
                         })
                     }}
                 /><br />
-                <input type="text" name="short_description" onChange={handleChange} placeholder="Enter short description" /><br /><br />
-                <textarea name="description" onChange={handleChange} placeholder="Enter description"></textarea><br /><br />
+                <input type="text" value={form.short_description} name="short_description" onChange={handleChange} placeholder="Enter short description" /><br /><br />
+                <textarea name="description" value={form.description} onChange={handleChange} placeholder="Enter description"></textarea><br /><br />
                 <label>Featured</label>
                 <div className="prod-adm-radio-group">
                     <label>
@@ -159,8 +209,11 @@ export default function ProductsForm() {
                         Inactive
                     </label>
                 </div><br />
-                <input type="number" name="sort_order" onChange={handleChange} placeholder="Sort order" /><br /><br />
-                <button>Add</button>
+                <input type="number" value={form.sort_order} name="sort_order" onChange={handleChange} placeholder="Sort order" min={0} /><br /><br />
+                <button>{editProduct ? 'Update' : 'Add'}</button>
+                {
+                    editProduct && <button onClick={() => setEditProduct(null)} type="button">Cancel</button>
+                }
             </form>
         </div>
     )

@@ -3,11 +3,13 @@ import './adminProducts.css'
 
 import ProductsForm from "../../components/products/ProductsForm";
 
-import { getAllProducts } from "../../api/productsApi";
+import { getAllProducts, deleteProduct } from "../../api/productsApi";
 
 export default function AdminProducts() {
 
     const [products, setProducts] = useState([]);
+
+    const [editProduct, setEditProduct] = useState(null);
 
     useEffect(() => {
         fetchAllProducts();
@@ -22,6 +24,19 @@ export default function AdminProducts() {
         }
     }
 
+    const handleDelete = async (id) => {
+        try {
+            await deleteProduct(id)
+            fetchAllProducts();
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const handleEdit = (edit) => {
+        setEditProduct(edit);
+    }
+
     return (
         <>
             <div className="category-dash">
@@ -29,7 +44,7 @@ export default function AdminProducts() {
                     <h4>Products Management</h4>
                 </div>
                 <div className="products-dash-form">
-                    <ProductsForm />
+                    <ProductsForm onSuccess={fetchAllProducts} editProduct={editProduct} setEditProduct={setEditProduct} />
                 </div>
                 <div className="products-dash-table">
                     <table>
@@ -49,7 +64,7 @@ export default function AdminProducts() {
                         </thead>
                         <tbody>
                             {products.map((product) => (
-                                <tr>
+                                <tr key={product.id}>
                                     <td>{product.name}</td>
                                     <td>{product.slug}</td>
                                     <td>{product.category_name}</td>
@@ -60,8 +75,8 @@ export default function AdminProducts() {
                                     <td>{product.status}</td>
                                     <td>{product.sort_order}</td>
                                     <td>
-                                        <button>Edit</button>
-                                        <button>Delete</button>
+                                        <button onClick={() => handleEdit(product)}>Edit</button>
+                                        <button onClick={() => handleDelete(product.id)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}

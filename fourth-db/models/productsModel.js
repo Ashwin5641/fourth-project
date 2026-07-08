@@ -5,7 +5,8 @@ const productsModel = {
     getAllProducts: async () => {
         const [rows] = await db.query(
             `
-            SELECT 
+            SELECT
+                p.id,
                 p.name, 
                 p.slug, 
                 p.category_id, 
@@ -46,6 +47,36 @@ const productsModel = {
             [name, slug, category_id, brand_id, short_description, description, featured, status, sort_order]
         );
         return result.insertId;
+    },
+
+    deleteProduct: async (id) => {
+        const [result] = await db.query(
+            'DELETE FROM products WHERE id = ?',
+            [id]
+        );
+        return result.affectedRows;
+    },
+
+    updateProduct: async (id, name, slug, category_id, brand_id, short_description, description, featured, status, sort_order) => {
+        const [result] = await db.query(
+            `
+            UPDATE 
+                products 
+            SET
+                name = ?,
+                slug = ?,
+                category_id = ?, 
+                brand_id = ?, 
+                short_description = ?, 
+                description = ?, 
+                featured = ?, 
+                status = ?, 
+                sort_order = ?
+                WHERE id = ?
+            `,
+            [name, slug, category_id, brand_id, short_description, description, featured, status, sort_order, id]
+        );
+        return result.affectedRows;
     }
 }
 
