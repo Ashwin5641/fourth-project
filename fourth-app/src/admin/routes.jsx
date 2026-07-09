@@ -6,6 +6,7 @@ import HeroDashboard from "../features/hero/pages/HeroDashboard";
 import AdminCategory from "./pages/categories/AdminCategory";
 import AdminBrands from "./pages/brands/AdminBrands";
 import AdminProducts from "./pages/products/AdminProducts";
+import ProductImages from "./pages/product-images/ProductImages";
 
 const adminRoutes = [
     {
@@ -35,6 +36,10 @@ const adminRoutes = [
             {
                 path: 'products',
                 element: <AdminProducts />
+            },
+            {
+                path: 'product-images',
+                element: <ProductImages />
             }
         ]
     }

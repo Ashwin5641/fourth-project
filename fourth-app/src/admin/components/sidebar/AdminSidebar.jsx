@@ -23,6 +23,10 @@ const menus = [
                 path: '/admin/products'
             },
             {
+                title: 'Product Images',
+                path: '/admin/product-images'
+            },
+            {
                 title: 'Brands',
                 path: '/admin/brands'
             }

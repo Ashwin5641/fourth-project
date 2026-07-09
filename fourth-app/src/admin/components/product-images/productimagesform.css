@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.productImages-dash-form-comp > h4 {
+    text-transform: uppercase;
+}
+
+.productImages-dash-form-comp > form {
+    margin-top: 15px;
+}
+
+.productImages-dash-form-comp > form > * {
+    width: 200px;
+}
+
+.productImages-dash-form-comp > form > button {
+    width: fit-content;
+}
