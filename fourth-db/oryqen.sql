@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2026 at 01:27 PM
+-- Generation Time: Jul 10, 2026 at 01:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `brands` (
 --
 
 INSERT INTO `brands` (`id`, `name`, `slug`, `logo`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(5, 'Oryqen', 'oryqen', '1783332254230.png', 'Oryqen', 'active', '2026-07-06 09:03:45', '2026-07-06 10:04:14');
+(5, 'Oryqen', 'oryqen', '1783332254230.png', 'oryqen', 'active', '2026-07-06 09:03:45', '2026-07-10 09:57:32');
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `image`, `is_primary`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 1, '1783595430927.png', 0, 1, '2026-07-09 11:10:30', '2026-07-09 11:10:30');
+(5, 1, '1783677694944.png', 0, 1, '2026-07-10 06:32:36', '2026-07-10 10:02:16');
 
 -- --------------------------------------------------------
 
@@ -260,7 +260,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`

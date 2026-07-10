@@ -3,22 +3,42 @@ import './productimagesform.css'
 
 import Select from "react-select";
 
-import { getAllProducts, createProductImages } from "../../api/productImagesApi";
+import { getAllProducts, createProductImages, updateProductImage } from "../../api/productImagesApi";
 
-export default function ProductImagesForm() {
+export default function ProductImagesForm({onSuccess, editProductImage, setEditProductImage}) {
+
+    const [fileKey, setFileKey] = useState(Date.now());
 
     const [products, setProducts] = useState([]);
 
     const [form, setForm] = useState({
         product_id: '',
         image: null,
-        is_primary: '',
+        is_primary: '0',
         sort_order: ''
     })
 
     useEffect(() => {
         fetchAllProducts();
     }, [])
+
+    useEffect(() => {
+        if (editProductImage) {
+            setForm({
+                product_id: editProductImage.product_id,
+                image: null,
+                is_primary: editProductImage.is_primary,
+                sort_order: editProductImage.sort_order
+            })
+        } else {
+            setForm({
+                product_id: '',
+                image: null,
+                is_primary: '0',
+                sort_order: ''
+            })
+        }
+    }, [editProductImage]) 
 
     const fetchAllProducts = async () => {
         try {
@@ -61,7 +81,12 @@ export default function ProductImagesForm() {
         formData.append('sort_order', form.sort_order);
 
         try {
-            await createProductImages(formData)
+            if (editProductImage) {
+                await updateProductImage(editProductImage.id, formData);
+                setEditProductImage(null)
+            } else {
+                await createProductImages(formData)
+            }
         } catch (err) {
             console.error(err)
         }
@@ -69,14 +94,20 @@ export default function ProductImagesForm() {
         setForm({
             product_id: '',
             image: null,
-            is_primary: '',
+            is_primary: '0',
             sort_order: ''
         })
+
+        setFileKey(Date.now());
+
+        if (onSuccess) {
+            onSuccess()
+        }
     }
 
     return (
         <div className="productImages-dash-form-comp">
-            <h4>Add Product Images</h4>
+            <h4>{editProductImage ? 'Edit Product Images' : 'Add Product Images'}</h4>
             <form onSubmit={handleSubmit}>
                 <Select
                     options={productOptions}
@@ -91,20 +122,23 @@ export default function ProductImagesForm() {
                     }}
                     value={productOptions.find(option => option.value === form.product_id)}
                 /><br />
-                <input type="file" accept="image/*" onChange={handleFileChange} /><br /><br />
+                <input key={fileKey} type="file" accept="image/*" onChange={handleFileChange} /><br /><br />
                 <label>Primary</label>
                 <div className="prodimg-adm-radio-grp">
                     <label>
-                        <input type="radio" value={'true'} name="is_primary" onChange={handleChange} />
+                        <input type="radio" value='1' checked={String(form.is_primary) === '1'} name="is_primary" onChange={handleChange} />
                         Yes
                     </label>
                     <label>
-                        <input type="radio" value={'false'} name="is_primary" onChange={handleChange} />
+                        <input type="radio" value='0' checked={String(form.is_primary) === '0'} name="is_primary" onChange={handleChange} />
                         No
                     </label>
                 </div><br />
-                <input type="number" name="sort_order" min={0} placeholder="Sort order" onChange={handleChange} /><br /><br />
-                <button>Add</button>
+                <input type="number" name="sort_order" min={0} placeholder="Sort order" onChange={handleChange} value={form.sort_order} /><br /><br />
+                <button>{editProductImage ? 'Update' : 'Add'}</button>
+                {
+                    editProductImage && <button type="button" onClick={() => setEditProductImage(null)}>Cancel</button>
+                }
             </form>
         </div>
     )
