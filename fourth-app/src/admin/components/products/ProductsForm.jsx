@@ -76,8 +76,8 @@ export default function ProductsForm({onSuccess, editProduct, setEditProduct}) {
     const categoryOptions = [
         ...categories.map((category) => ({
             value: category.id,
-            label: category.grandParent_name
-                ? `${category.name} - ${category.parent_name} - ${category.grandParent_name}`
+            label: category.grandparent_name
+                ? `${category.name} - ${category.parent_name} - ${category.grandparent_name}`
                 : category.parent_name
                 ? `${category.name} - ${category.parent_name}`
                 : category.name

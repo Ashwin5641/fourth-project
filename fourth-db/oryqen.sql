@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2026 at 01:19 PM
+-- Generation Time: Jul 11, 2026 at 01:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `oryqen`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attributes`
+--
+
+CREATE TABLE `attributes` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -69,13 +82,11 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `image`, `description`, `sort_order`, `is_active`, `created_at`, `updated_at`) VALUES
-(31, 'Men', 'men', NULL, '1783154421158.png', 'men', 0, 1, '2026-07-03 06:36:22', '2026-07-04 08:40:21'),
-(32, 'Women', 'women', NULL, '1783060740268.png', 'women', 0, 1, '2026-07-03 06:39:00', '2026-07-03 06:39:00'),
-(33, 'Kids', 'kids', NULL, '1783060806574.png', 'kids', 0, 1, '2026-07-03 06:40:06', '2026-07-03 06:40:06'),
-(34, 'Topwear', 'mens topwear', 31, '1783060838014.png', 'mens topwear', 0, 1, '2026-07-03 06:40:38', '2026-07-03 06:40:38'),
-(35, 'Topwear', 'women\'s topwear', 32, '1783060880692.png', 'women\'s topwear', 0, 1, '2026-07-03 06:41:20', '2026-07-03 06:41:20'),
-(36, 'Topwear', 'kids topwear', 33, '1783061164619.png', 'kids topwear', 0, 1, '2026-07-03 06:46:04', '2026-07-03 06:46:04'),
-(37, 'Shirts', 'mens shirts', 34, '1783154294925.png', 'mens shirts', 0, 1, '2026-07-04 08:38:14', '2026-07-04 08:42:56');
+(38, 'Clothing', 'premium clothes', NULL, '1783752624057.png', 'premium clothes', 0, 1, '2026-07-11 06:50:24', '2026-07-11 06:50:24'),
+(39, 'Accessories', 'affordable accessories', NULL, '1783752705221.png', 'affordable accessories', 0, 1, '2026-07-11 06:51:45', '2026-07-11 06:51:45'),
+(40, 'Mens', 'mens', 38, '1783752731555.png', 'mens', 0, 1, '2026-07-11 06:52:11', '2026-07-11 06:52:11'),
+(41, 'Topwear', 'mens topwear', 40, '1783752785310.png', 'mens topwear', 0, 1, '2026-07-11 06:53:05', '2026-07-11 06:53:05'),
+(42, 'Shirts', 'mens shirts', 41, '1783753068432.png', 'mens shirts', 0, 1, '2026-07-11 06:57:48', '2026-07-11 06:57:48');
 
 -- --------------------------------------------------------
 
@@ -129,8 +140,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `brand_id`, `name`, `slug`, `short_description`, `description`, `featured`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 37, 5, 'Spider Man', 'spider man t shirt', 'gdggd fgdf gd ', 'sdfsdf \n', 'no', 'active', 1, '2026-07-07 10:28:04', '2026-07-08 07:10:47'),
-(2, 37, 5, 'Plain White', 'plain white tshirt', 'aksdjka sjdasjd ', ' fd fdfdsfsd', 'no', 'active', 2, '2026-07-08 04:25:51', '2026-07-08 10:49:16');
+(5, 42, 5, 'Spider Man', 'spider man t shirt', 'spider man t shirt', 'Material: Cotton\nSize: M \nFit: Regular Fit', 'no', 'active', 1, '2026-07-11 08:23:16', '2026-07-11 08:23:16');
 
 -- --------------------------------------------------------
 
@@ -153,7 +163,7 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `image`, `is_primary`, `sort_order`, `created_at`, `updated_at`) VALUES
-(5, 1, '1783677694944.png', 0, 1, '2026-07-10 06:32:36', '2026-07-10 10:02:16');
+(6, 5, '1783758557381.png', 0, 1, '2026-07-11 08:29:17', '2026-07-11 08:29:17');
 
 -- --------------------------------------------------------
 
@@ -182,6 +192,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`, `u
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `attributes`
+--
+ALTER TABLE `attributes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `brands`
@@ -233,6 +250,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `attributes`
+--
+ALTER TABLE `attributes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
@@ -242,7 +265,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `hero_slides`
@@ -254,13 +277,13 @@ ALTER TABLE `hero_slides`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -53,7 +53,7 @@ export default function AdminCategory() {
                                 <th>Name</th>
                                 <th>Slug</th>
                                 <th>Parent Name</th>
-                                <th>Great Parent</th>
+                                <th>Grand Parent</th>
                                 <th>Image</th>
                                 <th>Description</th>
                                 <th>Action</th>
