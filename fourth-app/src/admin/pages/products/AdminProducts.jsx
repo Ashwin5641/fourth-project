@@ -39,7 +39,7 @@ export default function AdminProducts() {
 
     return (
         <>
-            <div className="category-dash">
+            <div className="products-dash">
                 <div className="products-dash-header">
                     <h4>Products Management</h4>
                 </div>

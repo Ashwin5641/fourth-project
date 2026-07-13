@@ -39,6 +39,8 @@ app.use('/admin/product-images', require('./routes/productImagesRoutes'));
 
 app.use('/admin/attributes', require('./routes/attributeRoutes'));
 
+app.use('/admin/attribute-values', require('./routes/attributeValuesRoutes'));
+
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}`)
 })

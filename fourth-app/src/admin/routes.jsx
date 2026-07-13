@@ -7,6 +7,8 @@ import AdminCategory from "./pages/categories/AdminCategory";
 import AdminBrands from "./pages/brands/AdminBrands";
 import AdminProducts from "./pages/products/AdminProducts";
 import ProductImages from "./pages/product-images/ProductImages";
+import AdminAttributes from "./pages/attributes/AdminAttributes";
+import AdminAttributeValues from "./pages/attribute-values/AdminAttributeValues";
 
 const adminRoutes = [
     {
@@ -40,6 +42,14 @@ const adminRoutes = [
             {
                 path: 'product-images',
                 element: <ProductImages />
+            },
+            {
+                path: 'attributes',
+                element: <AdminAttributes />
+            },
+            {
+                path: 'attribute-values',
+                element: <AdminAttributeValues />
             }
         ]
     }

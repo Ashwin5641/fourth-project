@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2026 at 01:24 PM
+-- Generation Time: Jul 13, 2026 at 01:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,39 @@ CREATE TABLE `attributes` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `attributes`
+--
+
+INSERT INTO `attributes` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(5, 'color', '2026-07-13 06:12:01', '2026-07-13 06:20:08'),
+(6, 'size', '2026-07-13 06:20:32', '2026-07-13 06:20:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attribute_values`
+--
+
+CREATE TABLE `attribute_values` (
+  `id` int(11) NOT NULL,
+  `attribute_id` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `attribute_values`
+--
+
+INSERT INTO `attribute_values` (`id`, `attribute_id`, `value`, `created_at`, `updated_at`) VALUES
+(1, 5, 'Black', '2026-07-13 09:53:40', '2026-07-13 09:53:40'),
+(2, 6, 'S', '2026-07-13 10:20:37', '2026-07-13 10:20:37'),
+(3, 5, 'White', '2026-07-13 10:25:56', '2026-07-13 10:25:56'),
+(4, 6, 'M', '2026-07-13 10:34:44', '2026-07-13 10:34:44'),
+(5, 5, 'Red', '2026-07-13 10:38:19', '2026-07-13 10:38:19');
 
 -- --------------------------------------------------------
 
@@ -201,6 +234,13 @@ ALTER TABLE `attributes`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Indexes for table `attribute_values`
+--
+ALTER TABLE `attribute_values`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `attribute_id` (`attribute_id`,`value`);
+
+--
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
@@ -253,7 +293,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attributes`
 --
 ALTER TABLE `attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `attribute_values`
+--
+ALTER TABLE `attribute_values`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `brands`
@@ -294,6 +340,12 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `attribute_values`
+--
+ALTER TABLE `attribute_values`
+  ADD CONSTRAINT `attribute_values_ibfk_1` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `categories`

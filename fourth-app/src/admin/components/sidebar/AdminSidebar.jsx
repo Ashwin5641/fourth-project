@@ -27,6 +27,14 @@ const menus = [
                 path: '/admin/product-images'
             },
             {
+                title: 'Attributes',
+                path: '/admin/attributes'
+            },
+            {
+                title: 'Attribute Values',
+                path: '/admin/attribute-values'
+            },
+            {
                 title: 'Brands',
                 path: '/admin/brands'
             }

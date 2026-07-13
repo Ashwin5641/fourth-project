@@ -1,12 +1,12 @@
-const attributesModel = require('../models/attributesModel');
+const attributeValuesModel = require('../models/attributeValuesModel');
 
-exports.getAllAttributes = async (req, res) => {
+exports.getAllAttributeValues = async (req, res) => {
     try {
-        const attributes = await attributesModel.getAllAttributes();
+        const attributeValues = await attributeValuesModel.getAllAttributeValues();
 
         return res.status(200).json({
             success: true,
-            data: attributes
+            data: attributeValues
         })
     } catch (err) {
         console.error(err);
@@ -17,33 +17,33 @@ exports.getAllAttributes = async (req, res) => {
     }
 }
 
-exports.createAttribute = async (req, res) => {
-    const {name} = req.body;
+exports.createAttributeValue = async (req, res) => {
+    const {attribute_id, value} = req.body;
 
-    if (!name) {
+    if (!attribute_id || !value) {
         return res.status(400).json({
             success: false,
-            message: 'Attribute required'
+            message: 'Fill the required fields'
         })
     }
 
     try {
-        const existing = await attributesModel.getAttributeByName(name);
+        const existing = await attributeValuesModel.getAttributeByValue(value);
 
         if (existing) {
             return res.status(409).json({
                 success: false,
-                message: 'Attribute already exist!'
+                message: 'Attribute value already exists'
             })
         }
 
-        await attributesModel.createAttribute(name);
+        await attributeValuesModel.createAttributeValue(attribute_id, value);
 
         return res.status(201).json({
             success: true,
-            message: 'Attribute created successfully!'
+            message: 'Created attribute values successfully!'
         })
-    } catch (err) {
+    } catch (err) { 
         console.error(err);
         return res.status(500).json({
             success: false,
@@ -52,15 +52,15 @@ exports.createAttribute = async (req, res) => {
     }
 }
 
-exports.deleteAttribute = async (req, res) => {
+exports.deleteAttributeValue = async (req, res) => {
     const {id} = req.params;
 
     try {
-        await attributesModel.deleteAttribute(id);
+        await attributeValuesModel.deleteAttributeValues(id);
 
         return res.status(200).json({
             success: true,
-            message: 'Attribute deleted successfully!'
+            message: 'Attribute value deleted successfully!'
         })
     } catch (err) {
         console.error(err);
@@ -71,38 +71,38 @@ exports.deleteAttribute = async (req, res) => {
     }
 }
 
-exports.updateAttribute = async (req, res) => {
+exports.updateAttributeValue = async (req, res) => {
     const {id} = req.params;
-    const {name} = req.body;
+    const {attribute_id, value} = req.body;
 
-    if (!name) {
+    if (!attribute_id || !value) {
         return res.status(400).json({
             success: false,
-            message: 'Fill the required field'
+            message: 'Fill the required fields'
         })
     }
 
     try {
-        const existing = await attributesModel.getOtherAttribute(id, name);
+        const existing = await attributeValuesModel.getOtherAttributeValue(id, attribute_id, value);
 
         if (existing) {
             return res.status(409).json({
                 success: false,
-                message: 'Attribute already exists'
+                message: 'Attribute value already exists'
             })
         }
 
-        const result = await attributesModel.updateAttribute(id, name);
+        await attributeValuesModel.updateAttributeValues(id, attribute_id, value);
 
         return res.status(200).json({
             success: true,
-            message: 'Attribute updated successfully!'
+            message: 'Attribute value updated successfully!'
         })
     } catch (err) {
         console.error(err);
         return res.status(500).json({
             success: false,
-            message: 'Please try again later'
+            message: 'Please try again later!'
         })
     }
 }
