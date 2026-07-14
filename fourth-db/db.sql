@@ -99,3 +99,23 @@ CREATE TABLE attribute_values (
     UNIQUE(attribute_id, value),
     FOREIGN KEY (attribute_id) REFERENCES attributes(id) ON DELETE CASCADE
 )
+
+CREATE table product_variants(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    sku VARCHAR(100) UNIQUE NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    stock_quantity INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_product_id(product_id)
+)
+
+CREATE TABLE variant_attribute_values (
+    variant_id INT NOT NULL,
+    attribute_value_id INT NOT NULL,
+    PRIMARY KEY (variant_id, attribute_value_id),
+    FOREIGN KEY (variant_id) REFERENCES product_variants(id) ON DELETE CASCADE,
+    FOREIGN KEY (attribute_value_id) REFERENCES attribute_values(id) ON DELETE CASCADE
+);

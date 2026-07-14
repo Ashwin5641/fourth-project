@@ -11,12 +11,12 @@ const menus = [
         title: 'Catalog',
         children: [
             {
-                title: 'Hero / Banner',
-                path: '/admin/hero'
-            },
-            {
                 title: 'Categories',
                 path: '/admin/categories'
+            },
+            {
+                title: 'Brands',
+                path: '/admin/brands'
             },
             {
                 title: 'Products',
@@ -35,9 +35,13 @@ const menus = [
                 path: '/admin/attribute-values'
             },
             {
-                title: 'Brands',
-                path: '/admin/brands'
-            }
+                title: 'Product Variants',
+                path: '/admin/product-variants'
+            },
+            {
+                title: 'Hero / Banner',
+                path: '/admin/hero'
+            }, 
         ]
     },
     {

@@ -28,7 +28,7 @@ exports.createAttributeValue = async (req, res) => {
     }
 
     try {
-        const existing = await attributeValuesModel.getAttributeByValue(value);
+        const existing = await attributeValuesModel.getAttributeValue(attribute_id, value);
 
         if (existing) {
             return res.status(409).json({

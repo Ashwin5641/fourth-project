@@ -9,6 +9,7 @@ import AdminProducts from "./pages/products/AdminProducts";
 import ProductImages from "./pages/product-images/ProductImages";
 import AdminAttributes from "./pages/attributes/AdminAttributes";
 import AdminAttributeValues from "./pages/attribute-values/AdminAttributeValues";
+import AdminProductVariants from "./pages/product-variants/AdmPrdctVariants";
 
 const adminRoutes = [
     {
@@ -50,6 +51,10 @@ const adminRoutes = [
             {
                 path: 'attribute-values',
                 element: <AdminAttributeValues />
+            },
+            {
+                path: 'product-variants',
+                element: <AdminProductVariants />
             }
         ]
     }

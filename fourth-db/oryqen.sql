@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2026 at 01:33 PM
+-- Generation Time: Jul 14, 2026 at 01:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -201,6 +201,22 @@ INSERT INTO `product_images` (`id`, `product_id`, `image`, `is_primary`, `sort_o
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `product_variants`
+--
+
+CREATE TABLE `product_variants` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `sku` varchar(100) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `stock_quantity` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -221,6 +237,17 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`, `updated_at`) VALUES
 (1, 'Ashwin', 'ashu@gmail.com', '$2b$10$RWg8d2dSaPr.O20OIXDToeZ6YdB2PNKL6BMNKK6IbzATeIan/6du.', 'user', '2026-06-19 09:09:43', '2026-06-19 09:09:43'),
 (2, 'Ashwin', 'ashwin@gmail.com', '$2b$10$dVV94Dzt4JC6aY3jsXfElOK4jRVe1hOzRIeGTQRYxkLJ4yAVrq2Qu', 'admin', '2026-06-19 09:13:25', '2026-06-19 09:13:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `variant_attribute_values`
+--
+
+CREATE TABLE `variant_attribute_values` (
+  `variant_id` int(11) NOT NULL,
+  `attribute_value_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -279,11 +306,26 @@ ALTER TABLE `product_images`
   ADD UNIQUE KEY `product_id` (`product_id`,`sort_order`);
 
 --
+-- Indexes for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `sku` (`sku`),
+  ADD KEY `idx_product_id` (`product_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `variant_attribute_values`
+--
+ALTER TABLE `variant_attribute_values`
+  ADD PRIMARY KEY (`variant_id`,`attribute_value_id`),
+  ADD KEY `attribute_value_id` (`attribute_value_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -332,6 +374,12 @@ ALTER TABLE `product_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -365,6 +413,19 @@ ALTER TABLE `products`
 --
 ALTER TABLE `product_images`
   ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD CONSTRAINT `product_variants_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `variant_attribute_values`
+--
+ALTER TABLE `variant_attribute_values`
+  ADD CONSTRAINT `variant_attribute_values_ibfk_1` FOREIGN KEY (`variant_id`) REFERENCES `product_variants` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `variant_attribute_values_ibfk_2` FOREIGN KEY (`attribute_value_id`) REFERENCES `attribute_values` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

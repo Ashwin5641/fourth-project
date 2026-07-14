@@ -9,10 +9,10 @@ const attributeValues = {
         return result.insertId;
     },
 
-    getAttributeByValue: async (value) => {
+    getAttributeValue: async (attribute_id, value) => {
         const [rows] = await db.query(
-            `SELECT * FROM attribute_values WHERE value = ?`,
-            [value]
+            "SELECT * FROM attribute_values WHERE attribute_id = ? AND value = ?",
+            [attribute_id, value]
         );
         return rows[0];
     },
