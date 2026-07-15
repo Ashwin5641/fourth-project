@@ -45,7 +45,9 @@ export default function CategoryForm({onSuccess, categories, editCategory, setEd
         {value: null, label: 'No parent'},
         ...categories.map((category) => ({
             value: category.id,
-            label: category.grandparent_name
+            label: category.greatGrandParent_name
+                ? `${category.name} - ${category.parent_name} - ${category.grandparent_name} - ${category.greatGrandParent_name}`
+                : category.grandparent_name
                 ? `${category.name} - ${category.parent_name} - ${category.grandparent_name}`
                 : category.parent_name
                 ? `${category.name} - ${category.parent_name}`

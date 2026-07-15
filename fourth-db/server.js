@@ -41,6 +41,8 @@ app.use('/admin/attributes', require('./routes/attributeRoutes'));
 
 app.use('/admin/attribute-values', require('./routes/attributeValuesRoutes'));
 
+app.use('/admin/category-attributes', require('./routes/categoryAttributesRoutes'));
+
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}`)
 })

@@ -59,12 +59,15 @@ const categoryModel = {
                     c.image,
                     c.description,
                     p.name AS parent_name,
-                    gp.name AS grandparent_name
+                    gp.name AS grandparent_name,
+                    ggp.name AS greatGrandParent_name
                 FROM categories c
                 LEFT JOIN categories p
                     ON c.parent_id = p.id
                 LEFT JOIN categories gp
-                    ON p.parent_id = gp.id;
+                    ON p.parent_id = gp.id
+                LEFT JOIN categories ggp
+                    ON gp.parent_id = ggp.id;
             `
         );
         return rows;

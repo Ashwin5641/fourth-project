@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2026 at 01:09 PM
+-- Generation Time: Jul 15, 2026 at 01:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -120,6 +120,26 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `image`, `descripti
 (40, 'Mens', 'mens', 38, '1783752731555.png', 'mens', 0, 1, '2026-07-11 06:52:11', '2026-07-11 06:52:11'),
 (41, 'Topwear', 'mens topwear', 40, '1783752785310.png', 'mens topwear', 0, 1, '2026-07-11 06:53:05', '2026-07-11 06:53:05'),
 (42, 'Shirts', 'mens shirts', 41, '1783753068432.png', 'mens shirts', 0, 1, '2026-07-11 06:57:48', '2026-07-11 06:57:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category_attributes`
+--
+
+CREATE TABLE `category_attributes` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `attribute_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `category_attributes`
+--
+
+INSERT INTO `category_attributes` (`id`, `category_id`, `attribute_id`) VALUES
+(2, 42, 5),
+(3, 42, 6);
 
 -- --------------------------------------------------------
 
@@ -284,6 +304,14 @@ ALTER TABLE `categories`
   ADD KEY `idx_parent` (`parent_id`);
 
 --
+-- Indexes for table `category_attributes`
+--
+ALTER TABLE `category_attributes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `category_id` (`category_id`,`attribute_id`),
+  ADD KEY `attribute_id` (`attribute_id`);
+
+--
 -- Indexes for table `hero_slides`
 --
 ALTER TABLE `hero_slides`
@@ -356,6 +384,12 @@ ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
+-- AUTO_INCREMENT for table `category_attributes`
+--
+ALTER TABLE `category_attributes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `hero_slides`
 --
 ALTER TABLE `hero_slides`
@@ -400,6 +434,13 @@ ALTER TABLE `attribute_values`
 --
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `category_attributes`
+--
+ALTER TABLE `category_attributes`
+  ADD CONSTRAINT `category_attributes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `category_attributes_ibfk_2` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `products`

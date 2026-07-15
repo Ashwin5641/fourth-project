@@ -35,6 +35,10 @@ const menus = [
                 path: '/admin/attribute-values'
             },
             {
+                title: 'Category Attributes',
+                path: '/admin/category-attributes'
+            },
+            {
                 title: 'Product Variants',
                 path: '/admin/product-variants'
             },

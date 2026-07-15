@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.prdctVariant-dash-form-comp > h4 {
+    text-transform: uppercase;
+}
+
+.prdctVariant-dash-form-comp > form {
+    margin-top: 15px;
+}
+
+.prdctVariant-dash-form-comp > form > * {
+    width: 200px;
+}
+
+.prdctVariant-dash-form-comp > form > button {
+    width: fit-content;
+}
