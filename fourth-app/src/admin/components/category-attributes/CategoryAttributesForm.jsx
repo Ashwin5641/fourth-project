@@ -3,9 +3,9 @@ import './CategoryAttributesForm.css';
 
 import Select from "react-select";
 
-import { getAllCategories, getAllAttributes, createCategoryAttribute } from "../../api/categoryAttributesApi";
+import { getAllCategories, getAllAttributes, createCategoryAttribute, updateCategoryAttribute } from "../../api/categoryAttributesApi";
 
-export default function CategoryAttributesForm({onSuccess}) {
+export default function CategoryAttributesForm({onSuccess, editCategoryAttribute, setEditCategoryAttribute}) {
 
     const [form, setForm] = useState({
         category_id: null,
@@ -19,6 +19,20 @@ export default function CategoryAttributesForm({onSuccess}) {
         fetchAllCategories();
         fetchAllAttributes();
     }, [])
+
+    useEffect(() => {
+        if (editCategoryAttribute) {
+            setForm({
+                category_id: editCategoryAttribute.category_id,
+                attribute_id: editCategoryAttribute.attribute_id
+            })
+        } else {
+            setForm({
+                category_id: null,
+                attribute_id: null
+            })
+        }
+    }, [editCategoryAttribute])
 
     const fetchAllCategories = async () => {
         try {
@@ -67,20 +81,21 @@ export default function CategoryAttributesForm({onSuccess}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
         try {
-            await createCategoryAttribute(form);
-            setForm({
-                category_id: null,
-                attribute_id: null
-            })
+            if (editCategoryAttribute) {
+                await updateCategoryAttribute(editCategoryAttribute.id, form)
+                setEditCategoryAttribute(null)
+            } else {
+                await createCategoryAttribute(form);
+                setForm({
+                    category_id: null,
+                    attribute_id: null
+                })
+            }
         } catch (err) {
-            console.error(err)
+            console.error(err);
         }
-
-        setForm({
-            category_id: null,
-            attribute_id: null
-        })
 
         if (onSuccess) {
             onSuccess();
@@ -89,9 +104,9 @@ export default function CategoryAttributesForm({onSuccess}) {
 
     return (
         <div className="categoryAttributes-dash-form-comp">
-            <h4>Add Category Attribute</h4>
+            <h4>{editCategoryAttribute ? 'Edit Category Attribute' : 'Add Category Attribute'}</h4>
             <form onSubmit={handleSubmit}>
-                <Select 
+                <Select
                     placeholder='Select category'
                     options={categoryOptions}
                     isSearchable
@@ -117,7 +132,10 @@ export default function CategoryAttributesForm({onSuccess}) {
                         })
                     }
                 /><br />
-                <button>Add</button>
+                <button>{editCategoryAttribute ? 'Update' : 'Add'}</button>
+                {
+                    editCategoryAttribute && <button onClick={() => setEditCategoryAttribute(null)} type="button">Cancel</button>
+                }
             </form>
         </div>
     )

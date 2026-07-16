@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2026 at 01:33 PM
+-- Generation Time: Jul 16, 2026 at 01:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -138,8 +138,8 @@ CREATE TABLE `category_attributes` (
 --
 
 INSERT INTO `category_attributes` (`id`, `category_id`, `attribute_id`) VALUES
-(2, 42, 5),
-(3, 42, 6);
+(4, 42, 5),
+(2, 42, 6);
 
 -- --------------------------------------------------------
 
@@ -387,7 +387,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `category_attributes`
 --
 ALTER TABLE `category_attributes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `hero_slides`

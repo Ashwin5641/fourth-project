@@ -20,7 +20,7 @@ exports.getAllCategoryAttributes = async (req, res) => {
 exports.createCategoryAttribute = async (req, res) => {
     const {category_id, attribute_id} = req.body;
 
-    if (category_id === null || attribute_id === null) {
+    if (!category_id || !attribute_id) {
         return res.status(400).json({
             success: false,
             message: 'All fields are required'
@@ -71,6 +71,42 @@ exports.deleteCategoryAttribute = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Category attribute deleted successfully!'
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
+    }
+}
+
+exports.updateCategoryAttribute = async (req, res) => {
+    const {id} = req.params;
+    const {category_id, attribute_id} = req.body;
+
+    if (!category_id && !attribute_id) {
+        return res.status(400).json({
+            success: false,
+            message: 'Required all fields'
+        })
+    }
+
+    try {
+        const existing = await categoryAttributesModel.getOtherCategoryAttribute(id, category_id, attribute_id);
+
+        if (existing) {
+            return res.status(409).json({
+                success: false,
+                message: 'Category attribute already exists!'
+            })
+        }
+
+        const result = await categoryAttributesModel.updateCategoryAttribute(id, category_id, attribute_id);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Category attribute updated successfully!'
         })
     } catch (err) {
         console.error(err);

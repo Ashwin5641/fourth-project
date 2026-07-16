@@ -9,8 +9,10 @@ export default function AdmCatgryAttributes() {
 
     const [categoryAttributes, setCategoryAttributes] = useState([]);
 
+    const [editCategoryAttribute, setEditCategoryAttribute] = useState(null)
+
     useEffect(() => {
-        fetchAllCategoryAttributes()
+        fetchAllCategoryAttributes();
     }, [])
 
     const fetchAllCategoryAttributes = async () =>{
@@ -31,13 +33,21 @@ export default function AdmCatgryAttributes() {
         }
     }
 
+    const handleEdit = (edit) => {
+        setEditCategoryAttribute(edit)
+    }
+
     return (
         <div className="categoryAttributes-dash">
             <div className="categoryAttributes-dash-header">
                 <h4>Category Attributes Management</h4>
             </div>
             <div className="categoryAttributes-dash-form">
-                <CategoryAttributesForm onSuccess={fetchAllCategoryAttributes} />
+                <CategoryAttributesForm 
+                    onSuccess={fetchAllCategoryAttributes} 
+                    editCategoryAttribute={editCategoryAttribute}
+                    setEditCategoryAttribute={setEditCategoryAttribute}    
+                />
             </div>
             <div className="categoryAttributes-dash-table">
                 <table>
@@ -56,7 +66,7 @@ export default function AdmCatgryAttributes() {
                                 <td>{categoryAttribute.category_name}</td>
                                 <td>{categoryAttribute.attribute_name}</td>
                                 <td>
-                                    <button>Edit</button>
+                                    <button onClick={() => handleEdit(categoryAttribute)}>Edit</button>
                                     <button onClick={() => handleDelete(categoryAttribute.id)}>Delete</button>
                                 </td>
                             </tr>

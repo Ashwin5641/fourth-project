@@ -24,3 +24,8 @@ export const deleteCategoryAttribute = async (id) => {
     const res = await api.delete(`/admin/category-attributes/${id}`);
     return res;
 }
+
+export const updateCategoryAttribute = async (id, form) => {
+    const res = await api.put(`/admin/category-attributes/${id}`, form);
+    return res;
+}

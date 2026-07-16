@@ -24,7 +24,7 @@ export default function PrdctVariantForm() {
     const fetchAllProducts = async () => {
         try {
             const res = await getAllProducts();
-            setProducts(res.data)
+            setProducts(res.data);
         } catch (err) {
             console.error(err)
         }
@@ -53,7 +53,7 @@ export default function PrdctVariantForm() {
                     options={productOptions}
                     isSearchable
                     value={productOptions.find((option) => option.value === form.product_id)}
-                    onChange={(selectedOption) => 
+                    onChange={(selectedOption) =>
                         setForm({
                             ...form,
                             product_id: selectedOption.value
@@ -63,6 +63,7 @@ export default function PrdctVariantForm() {
                 <input type="text" name="sku" placeholder="Stock keeping unit" onChange={handleChange} /><br /><br />
                 <input type="number" name="price" placeholder="Price" onChange={handleChange} min={0} /><br /><br />
                 <input type="number" name="stock_quantity" placeholder="Stock Quantity" onChange={handleChange} min={0} /><br /><br />
+                <Select />
             </form>
         </div>
     )
