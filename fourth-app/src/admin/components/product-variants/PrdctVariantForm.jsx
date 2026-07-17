@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import './PrdctVariantForm.css'
 
 import Select from "react-select";
-import { getAllProducts } from "../../api/productsApi";
+
+import { getAllProducts, getProductAttributes } from "../../api/prdctVariantApi";
 
 export default function PrdctVariantForm() {
 
     const [products, setProducts] = useState([]);
+
+    const [attributes, setAttributes] = useState([]);
 
     const [form, setForm] = useState({
         product_id: null,
@@ -21,10 +24,26 @@ export default function PrdctVariantForm() {
         fetchAllProducts()
     }, [])
 
+    useEffect(() => {
+        if (!form.product_id) return;
+
+        fetchCategoryId(form.product_id)
+    }, [form.product_id])
+
     const fetchAllProducts = async () => {
         try {
             const res = await getAllProducts();
             setProducts(res.data);
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const fetchCategoryId = async (product_id) => {
+        try {
+            const res = await getProductAttributes(product_id);
+            console.log(res.data)
+            setAttributes(res.data)
         } catch (err) {
             console.error(err)
         }
@@ -63,7 +82,22 @@ export default function PrdctVariantForm() {
                 <input type="text" name="sku" placeholder="Stock keeping unit" onChange={handleChange} /><br /><br />
                 <input type="number" name="price" placeholder="Price" onChange={handleChange} min={0} /><br /><br />
                 <input type="number" name="stock_quantity" placeholder="Stock Quantity" onChange={handleChange} min={0} /><br /><br />
-                <Select />
+                {
+                    attributes.map((attribute) => (
+                        <div key={attribute.attribute_id}>
+
+                            <label>{attribute.attribute_name}</label>
+
+                            <Select
+                                options={attribute.values.map(v => ({
+                                    value: v.id,
+                                    label: v.value
+                                }))}
+                            />
+
+                        </div>
+                    ))
+                }
             </form>
         </div>
     )
