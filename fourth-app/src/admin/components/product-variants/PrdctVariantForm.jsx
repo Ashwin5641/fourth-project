@@ -3,7 +3,7 @@ import './PrdctVariantForm.css'
 
 import Select from "react-select";
 
-import { getAllProducts, getProductAttributes } from "../../api/prdctVariantApi";
+import { getAllProducts, getProductAttributes, createProductVariant } from "../../api/prdctVariantApi";
 
 export default function PrdctVariantForm() {
 
@@ -17,7 +17,7 @@ export default function PrdctVariantForm() {
         price: '',
         stock_quantity: '',
         variant_id: '',
-        attribute_value_id: ''
+        attribute_values: {}
     })
 
     useEffect(() => {
@@ -63,10 +63,20 @@ export default function PrdctVariantForm() {
         })
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await createProductVariant(form);
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     return (
         <div className="prdctVariant-dash-form-comp">
             <h4>Add Product Variant</h4>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <Select
                     placeholder='Select product'
                     options={productOptions}
@@ -79,25 +89,28 @@ export default function PrdctVariantForm() {
                         })
                     }
                 /><br />
-                <input type="text" name="sku" placeholder="Stock keeping unit" onChange={handleChange} /><br /><br />
-                <input type="number" name="price" placeholder="Price" onChange={handleChange} min={0} /><br /><br />
+                <input type="text" value={form.sku} name="sku" placeholder="Stock keeping unit" onChange={handleChange} /><br /><br />
+                <input type="number" value={form.price} name="price" placeholder="Price" onChange={handleChange} min={0} /><br /><br />
                 <input type="number" name="stock_quantity" placeholder="Stock Quantity" onChange={handleChange} min={0} /><br /><br />
                 {
                     attributes.map((attribute) => (
                         <div key={attribute.attribute_id}>
-
                             <label>{attribute.attribute_name}</label>
-
                             <Select
+                                isSearchable
                                 options={attribute.values.map(v => ({
                                     value: v.id,
                                     label: v.value
                                 }))}
+                                onChange={(selectOption) => ({
+                                    
+                                })}
+                                maxMenuHeight={200}
                             />
-
                         </div>
                     ))
                 }
+                <button>Add</button>
             </form>
         </div>
     )

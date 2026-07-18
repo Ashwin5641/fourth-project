@@ -113,9 +113,10 @@ CREATE table product_variants(
 )
 
 CREATE TABLE variant_attribute_values (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     variant_id INT NOT NULL,
     attribute_value_id INT NOT NULL,
-    PRIMARY KEY (variant_id, attribute_value_id),
+    UNIQUE (variant_id, attribute_value_id),
     FOREIGN KEY (variant_id) REFERENCES product_variants(id) ON DELETE CASCADE,
     FOREIGN KEY (attribute_value_id) REFERENCES attribute_values(id) ON DELETE CASCADE
 );

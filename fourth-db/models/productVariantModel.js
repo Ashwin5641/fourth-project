@@ -52,6 +52,14 @@ const productVariantModel = {
             [category_id]
         );
         return rows;
+    },
+
+    createProductVariant: async (product_id, sku, price, stock_quantity) => {
+        const [result] = await db.query(
+            'INSERT INTO product_variants (product_id, sku, price, stock_quantity) VALUES (?, ?, ?, ?)',
+            [product_id, sku, price, stock_quantity]
+        );
+        return result.insertId;
     }
 }
 

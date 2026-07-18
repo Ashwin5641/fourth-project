@@ -9,3 +9,8 @@ export const getProductAttributes = async (product_id) => {
     const res = await api.get(`/admin/product-variant/product/${product_id}/attributes`);
     return res;
 }
+
+export const createProductVariant = async (form) => {
+    const res = await api.post('/admin/product-variant', form);
+    return res;
+}
