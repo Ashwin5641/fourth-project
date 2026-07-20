@@ -1,10 +1,19 @@
 const db = require('../config/db');
 
 const productVariantModel = {
+
     getCategoryIdByProductId: async (product_id) => {
         const [rows] = await db.query(
             'SELECT category_id FROM products WHERE id = ?',
             [product_id]
+        );
+        return rows[0]
+    },
+
+    getProductBySku: async (sku) => {
+        const [rows] = await db.query(
+            'SELECT * FROM product_variants WHERE sku = ?',
+            [sku]
         );
         return rows[0]
     },
@@ -54,12 +63,29 @@ const productVariantModel = {
         return rows;
     },
 
-    createProductVariant: async (product_id, sku, price, stock_quantity) => {
-        const [result] = await db.query(
-            'INSERT INTO product_variants (product_id, sku, price, stock_quantity) VALUES (?, ?, ?, ?)',
+    createProductVariant: async (connection, product_id, sku, price, stock_quantity) => {
+
+        const [result] = await connection.query(
+            `
+            INSERT INTO product_variants
+            (product_id, sku, price, stock_quantity)
+            VALUES (?,?,?,?)
+            `,
             [product_id, sku, price, stock_quantity]
-        );
+            );
+
         return result.insertId;
+    },
+
+    createVariantAttributeValue: async (connection, variant_id, attribute_value_id) => {
+        await connection.query(
+            `
+            INSERT INTO variant_attribute_values
+            (variant_id, attribute_value_id)
+            VALUES (?,?)
+            `,
+            [variant_id, attribute_value_id]
+        );
     }
 }
 

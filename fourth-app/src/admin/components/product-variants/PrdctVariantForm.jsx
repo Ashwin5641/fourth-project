@@ -16,7 +16,6 @@ export default function PrdctVariantForm() {
         sku: '',
         price: '',
         stock_quantity: '',
-        variant_id: '',
         attribute_values: {}
     })
 
@@ -66,6 +65,7 @@ export default function PrdctVariantForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(form)
         try {
             await createProductVariant(form);
         } catch (err) {
@@ -91,26 +91,36 @@ export default function PrdctVariantForm() {
                 /><br />
                 <input type="text" value={form.sku} name="sku" placeholder="Stock keeping unit" onChange={handleChange} /><br /><br />
                 <input type="number" value={form.price} name="price" placeholder="Price" onChange={handleChange} min={0} /><br /><br />
-                <input type="number" name="stock_quantity" placeholder="Stock Quantity" onChange={handleChange} min={0} /><br /><br />
+                <input type="number" value={form.stock_quantity} name="stock_quantity" placeholder="Stock Quantity" onChange={handleChange} min={0} /><br /><br />
                 {
-                    attributes.map((attribute) => (
-                        <div key={attribute.attribute_id}>
+                    attributes.map((attribute) => {
+
+                        const options = attribute.values.map(v => ({
+                            value: v.id,
+                            label: v.value
+                        }));
+
+                        return <div key={attribute.attribute_id}>
                             <label>{attribute.attribute_name}</label>
                             <Select
                                 isSearchable
-                                options={attribute.values.map(v => ({
-                                    value: v.id,
-                                    label: v.value
-                                }))}
-                                onChange={(selectOption) => ({
-                                    
-                                })}
+                                options={options}
+                                value={options.find((option) => option.value === form.attribute_values[attribute.attribute_id])}
+                                onChange={(selectOption) => 
+                                    setForm(prev => ({
+                                        ...prev,
+                                        attribute_values: {
+                                            ...prev.attribute_values,
+                                            [attribute.attribute_id] : selectOption.value 
+                                        }
+                                    }))
+                                }
                                 maxMenuHeight={200}
                             />
                         </div>
-                    ))
+                    })
                 }
-                <button>Add</button>
+                <button type="submit">Add</button>
             </form>
         </div>
     )
