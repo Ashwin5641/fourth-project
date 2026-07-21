@@ -33,6 +33,51 @@ exports.getProductAttributes = async (req, res) => {
     }
 }
 
+exports.getAllProductVariants = async (req, res) => {
+    try {
+        const productVariants = await productVariantModel.getAllProductVariants();
+
+        const grouped = Object.values(
+
+            productVariants.reduce((groupedVariants, row) => {
+
+                if (!groupedVariants[row.variant_id]) {
+                    groupedVariants[row.variant_id] = {
+                        variant_id: row.variant_id,
+                        product_id: row.product_id,
+                        product_name: row.product_name,
+                        sku: row.sku,
+                        price: row.price,
+                        stock_quantity: row.stock_quantity,
+                        attributes: []
+                    };
+                }
+
+                groupedVariants[row.variant_id].attributes.push({
+                    attribute_name: row.attribute_name,
+                    attribute_value: row.attribute_value
+                });
+
+                return groupedVariants;
+
+            }, {})
+
+        );
+
+        return res.status(200).json({
+            success: true,
+            data: grouped
+        })
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
+    }
+}
+
 exports.createProductVariants = async (req, res) => {
     const {product_id, sku, price, stock_quantity, attribute_values} = req.body;
 
@@ -84,5 +129,24 @@ exports.createProductVariants = async (req, res) => {
         })
     } finally {
         await connection.release();
+    }
+}
+
+exports.deleteProductVariant = async (req, res) => {
+    const {variant_id} = req.params;
+
+    try {
+        await productVariantModel.deleteProductVariant(variant_id);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Product variant deleted successfully!'
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
     }
 }

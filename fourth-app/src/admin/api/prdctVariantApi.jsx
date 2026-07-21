@@ -14,3 +14,13 @@ export const createProductVariant = async (form) => {
     const res = await api.post('/admin/product-variant', form);
     return res;
 }
+
+export const getAllProductVariants = async () => {
+    const res = await api.get('/admin/product-variant');
+    return res
+}
+
+export const deleteProductVariant = async (id) => {
+    const res = await api.delete(`/admin/product-variant/${id}`);
+    return res;
+}

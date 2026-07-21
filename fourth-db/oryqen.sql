@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2026 at 01:24 PM
+-- Generation Time: Jul 21, 2026 at 01:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -247,6 +247,15 @@ CREATE TABLE `product_variants` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `product_variants`
+--
+
+INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `created_at`, `updated_at`) VALUES
+(2, 7, 'FJ-BLK-28', 499.00, 10, '2026-07-20 10:54:34', '2026-07-20 10:54:34'),
+(3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-21 05:14:27'),
+(4, 6, 'SMT-BLK-M', 350.00, 2, '2026-07-21 08:49:14', '2026-07-21 08:49:14');
+
 -- --------------------------------------------------------
 
 --
@@ -278,9 +287,23 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`, `u
 --
 
 CREATE TABLE `variant_attribute_values` (
+  `id` int(11) NOT NULL,
   `variant_id` int(11) NOT NULL,
   `attribute_value_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `variant_attribute_values`
+--
+
+INSERT INTO `variant_attribute_values` (`id`, `variant_id`, `attribute_value_id`) VALUES
+(1, 2, 1),
+(2, 2, 4),
+(3, 3, 5),
+(4, 3, 11),
+(5, 4, 1),
+(6, 4, 4),
+(7, 4, 9);
 
 --
 -- Indexes for dumped tables
@@ -365,7 +388,8 @@ ALTER TABLE `users`
 -- Indexes for table `variant_attribute_values`
 --
 ALTER TABLE `variant_attribute_values`
-  ADD PRIMARY KEY (`variant_id`,`attribute_value_id`),
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `variant_id` (`variant_id`,`attribute_value_id`),
   ADD KEY `attribute_value_id` (`attribute_value_id`);
 
 --
@@ -424,13 +448,19 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `variant_attribute_values`
+--
+ALTER TABLE `variant_attribute_values`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

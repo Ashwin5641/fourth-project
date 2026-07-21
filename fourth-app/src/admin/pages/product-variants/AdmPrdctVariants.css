@@ -24,3 +24,21 @@
 .admPrdctVariant-dash-form {
     margin-top: 20px;
 }
+
+.admPrdctVariant-dash-table table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admPrdctVariant-dash-table th,
+.admPrdctVariant-dash-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.admPrdctVariant-dash-table th {
+    background-color: #1e293b;
+    color: white;
+}

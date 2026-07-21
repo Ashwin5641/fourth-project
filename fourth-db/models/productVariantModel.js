@@ -86,6 +86,48 @@ const productVariantModel = {
             `,
             [variant_id, attribute_value_id]
         );
+    },
+
+    getAllProductVariants: async () => {
+        const [rows] = await db.query(
+            `SELECT 
+                pv.id AS variant_id,
+                pv.product_id,
+                p.name AS product_name, 
+                pv.sku, 
+                pv.price, 
+                pv.stock_quantity, 
+                a.name AS attribute_name, 
+                av.value AS attribute_value 
+            FROM 
+                product_variants pv 
+            LEFT JOIN 
+                products p 
+            ON 
+                pv.product_id = p.id 
+            LEFT JOIN 
+                variant_attribute_values vav 
+            ON 
+                pv.id = vav.variant_id 
+            LEFT JOIN 
+                attribute_values av 
+            ON 
+                vav.attribute_value_id = av.id 
+            LEFT JOIN 
+                attributes a 
+            ON 
+                av.attribute_id = a.id;
+            `
+        );
+        return rows;
+    },
+
+    deleteProductVariant: async (id) => {
+        const [result] = await db.query(
+            'DELETE FROM product_variants WHERE id = ?',
+            [id] 
+        );
+        return result.affectedRows;
     }
 }
 

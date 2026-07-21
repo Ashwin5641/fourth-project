@@ -5,7 +5,7 @@ import Select from "react-select";
 
 import { getAllProducts, getProductAttributes, createProductVariant } from "../../api/prdctVariantApi";
 
-export default function PrdctVariantForm() {
+export default function PrdctVariantForm({onSuccess, editProductVariant, setEditProductVariant}) {
 
     const [products, setProducts] = useState([]);
 
@@ -18,6 +18,26 @@ export default function PrdctVariantForm() {
         stock_quantity: '',
         attribute_values: {}
     })
+
+    useEffect(() => {
+        if (editProductVariant) {
+            setForm({
+                product_id: editProductVariant.product_id,
+                sku: editProductVariant.sku,
+                price: editProductVariant.price,
+                stock_quantity: editProductVariant.stock_quantity,
+                attribute_values: {}
+            })
+        } else {
+            setForm({
+                product_id: null,
+                sku: '',
+                price: '',
+                stock_quantity: '',
+                attribute_values: {}
+            })
+        }
+    }, [editProductVariant])
 
     useEffect(() => {
         fetchAllProducts()
@@ -64,12 +84,14 @@ export default function PrdctVariantForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log(form)
         try {
             await createProductVariant(form);
         } catch (err) {
             console.error(err)
+        }
+
+        if (onSuccess) {
+            onSuccess();
         }
     }
 
