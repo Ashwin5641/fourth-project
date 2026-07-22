@@ -54,7 +54,9 @@ exports.getAllProductVariants = async (req, res) => {
                 }
 
                 groupedVariants[row.variant_id].attributes.push({
+                    attribute_id: row.attribute_id,
                     attribute_name: row.attribute_name,
+                    attribute_value: row.attribute_id,
                     attribute_value: row.attribute_value
                 });
 

@@ -21,12 +21,20 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
 
     useEffect(() => {
         if (editProductVariant) {
+            console.log(editProductVariant);
+
+            const attributeValues = {};
+
+            editProductVariant.attributes.forEach((attr) => {
+                attributeValues[attr.attribute_id] = attr.attribute_value_id
+            });
+
             setForm({
                 product_id: editProductVariant.product_id,
                 sku: editProductVariant.sku,
                 price: editProductVariant.price,
                 stock_quantity: editProductVariant.stock_quantity,
-                attribute_values: {}
+                attribute_values: attributeValues
             })
         } else {
             setForm({
@@ -97,7 +105,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
 
     return (
         <div className="prdctVariant-dash-form-comp">
-            <h4>Add Product Variant</h4>
+            <h4>{editProductVariant ? 'Edit Product Variant' : 'Add Product Variant'}</h4>
             <form onSubmit={handleSubmit}>
                 <Select
                     placeholder='Select product'
@@ -122,27 +130,29 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
                             label: v.value
                         }));
 
-                        return <div key={attribute.attribute_id}>
-                            <label>{attribute.attribute_name}</label>
-                            <Select
-                                isSearchable
-                                options={options}
-                                value={options.find((option) => option.value === form.attribute_values[attribute.attribute_id])}
-                                onChange={(selectOption) => 
-                                    setForm(prev => ({
-                                        ...prev,
-                                        attribute_values: {
-                                            ...prev.attribute_values,
-                                            [attribute.attribute_id] : selectOption.value 
-                                        }
-                                    }))
-                                }
-                                maxMenuHeight={200}
-                            />
-                        </div>
+                        return (
+                            <div key={attribute.attribute_id}>
+                                <label>{attribute.attribute_name}</label>
+                                <Select
+                                    isSearchable
+                                    options={options}
+                                    value={options.find((option) => option.value === form.attribute_values[attribute.attribute_id])}
+                                    onChange={(selectOption) =>
+                                        setForm(prev => ({
+                                            ...prev,
+                                            attribute_values: {
+                                                ...prev.attribute_values,
+                                                [attribute.attribute_id]: selectOption.value
+                                            }
+                                        }))
+                                    }
+                                    maxMenuHeight={200}
+                                />
+                            </div>
+                        )
                     })
                 }
-                <button type="submit">Add</button>
+                <button type="submit">{editProductVariant ? 'Edit' : 'Add'}</button>
             </form>
         </div>
     )

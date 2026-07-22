@@ -96,7 +96,9 @@ const productVariantModel = {
                 p.name AS product_name, 
                 pv.sku, 
                 pv.price, 
-                pv.stock_quantity, 
+                pv.stock_quantity,
+                a.id AS attribute_id,
+                av.id AS attribute_value_id,
                 a.name AS attribute_name, 
                 av.value AS attribute_value 
             FROM 
