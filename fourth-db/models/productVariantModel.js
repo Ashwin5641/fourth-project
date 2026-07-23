@@ -130,7 +130,30 @@ const productVariantModel = {
             [id] 
         );
         return result.affectedRows;
+    },
+
+    getOtherProductVariant: async () => {
+        
+    },
+
+    updateProductVariant: async (connection, id, product_id, sku, price, stock_quantity) => {
+        const [result] = await connection.query(
+            `
+            UPDATE 
+                product_variants 
+            SET 
+                product_id = ?, 
+                sku = ?, 
+                price = ?, 
+                stock_quantity = ?
+            WHERE
+                id = ?
+            `,
+            [product_id, sku, price, stock_quantity, id]
+        );
+        return result.affectedRows;
     }
+
 }
 
 module.exports = productVariantModel;

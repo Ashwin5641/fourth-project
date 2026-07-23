@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2026 at 01:29 PM
+-- Generation Time: Jul 23, 2026 at 01:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -254,7 +254,7 @@ CREATE TABLE `product_variants` (
 INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `created_at`, `updated_at`) VALUES
 (2, 7, 'FJ-BLK-28', 499.00, 10, '2026-07-20 10:54:34', '2026-07-20 10:54:34'),
 (3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-21 05:14:27'),
-(4, 6, 'SMT-BLK-M', 350.00, 2, '2026-07-21 08:49:14', '2026-07-21 08:49:14');
+(6, 5, 'SMT-RED-M', 350.00, 7, '2026-07-23 08:51:03', '2026-07-23 08:51:03');
 
 -- --------------------------------------------------------
 
@@ -301,9 +301,9 @@ INSERT INTO `variant_attribute_values` (`id`, `variant_id`, `attribute_value_id`
 (2, 2, 4),
 (3, 3, 5),
 (4, 3, 11),
-(5, 4, 1),
-(6, 4, 4),
-(7, 4, 9);
+(12, 6, 4),
+(11, 6, 5),
+(13, 6, 9);
 
 --
 -- Indexes for dumped tables
@@ -448,7 +448,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -460,7 +460,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `variant_attribute_values`
 --
 ALTER TABLE `variant_attribute_values`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

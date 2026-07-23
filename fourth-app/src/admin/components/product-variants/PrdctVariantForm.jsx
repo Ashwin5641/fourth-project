@@ -21,7 +21,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
 
     useEffect(() => {
         if (editProductVariant) {
-            console.log(editProductVariant);
+            console.log(editProductVariant.attributes);
 
             const attributeValues = {};
 
@@ -54,7 +54,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
     useEffect(() => {
         if (!form.product_id) return;
 
-        fetchCategoryId(form.product_id)
+        fetchCategoryId(form.product_id);
     }, [form.product_id])
 
     const fetchAllProducts = async () => {
@@ -92,11 +92,21 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
+
+        try {   
             await createProductVariant(form);
+            console.log(form)
         } catch (err) {
             console.error(err)
         }
+
+        setForm({
+            product_id: null,
+            sku: '',
+            price: '',
+            stock_quantity: '',
+            attribute_values: {}
+        })
 
         if (onSuccess) {
             onSuccess();

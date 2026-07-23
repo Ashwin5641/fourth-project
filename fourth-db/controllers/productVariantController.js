@@ -56,7 +56,7 @@ exports.getAllProductVariants = async (req, res) => {
                 groupedVariants[row.variant_id].attributes.push({
                     attribute_id: row.attribute_id,
                     attribute_name: row.attribute_name,
-                    attribute_value: row.attribute_id,
+                    attribute_value_id: row.attribute_value_id,
                     attribute_value: row.attribute_value
                 });
 
@@ -150,5 +150,23 @@ exports.deleteProductVariant = async (req, res) => {
             success: false,
             message: 'Please try again later!'
         })
+    }
+}
+
+exports.updateProductVariant = async (req, res) => {
+    const {variant_id} = req.params;
+    const {product_id, sku, price, stock_quantity, attribute_values} = req.body;
+
+    if (!product_id || !sku || !price || !stock_quantity || !attribute_values) {
+        return res.status(400).json({
+            success: false,
+            message: 'Required all fields'
+        })
+    }
+
+    try {
+        
+    } catch (err) {
+
     }
 }
