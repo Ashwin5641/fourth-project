@@ -6,5 +6,6 @@ router.get('/product/:product_id/attributes', productVariantController.getProduc
 router.post('/', productVariantController.createProductVariants);
 router.get('/', productVariantController.getAllProductVariants);
 router.delete('/:variant_id', productVariantController.deleteProductVariant);
+router.put('/:variant_id', productVariantController.updateProductVariant);
 
 module.exports = router;

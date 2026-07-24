@@ -132,11 +132,24 @@ const productVariantModel = {
         return result.affectedRows;
     },
 
-    getOtherProductVariant: async () => {
-        
+    getOtherProductVariantSku: async (id, sku) => {
+        const [rows] = await db.query(
+            `
+            SELECT 
+                * 
+            FROM 
+                product_variants 
+            WHERE 
+                sku = ? 
+            AND 
+                id <> ?;
+            `,
+            [sku, id]
+        );
+        return rows[0]
     },
 
-    updateProductVariant: async (connection, id, product_id, sku, price, stock_quantity) => {
+    updateProductVariant: async (connection, variant_id, product_id, sku, price, stock_quantity) => {
         const [result] = await connection.query(
             `
             UPDATE 
@@ -149,7 +162,15 @@ const productVariantModel = {
             WHERE
                 id = ?
             `,
-            [product_id, sku, price, stock_quantity, id]
+            [product_id, sku, price, stock_quantity, variant_id]
+        );
+        return result.affectedRows;
+    },
+
+    deleteVariantAttributeValues: async (connection, variant_id) => {
+        const [result] = await connection.query(
+            'DELETE FROM variant_attribute_values WHERE variant_id = ?',
+            [variant_id]
         );
         return result.affectedRows;
     }

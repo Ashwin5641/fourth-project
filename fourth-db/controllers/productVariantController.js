@@ -157,7 +157,9 @@ exports.updateProductVariant = async (req, res) => {
     const {variant_id} = req.params;
     const {product_id, sku, price, stock_quantity, attribute_values} = req.body;
 
-    if (!product_id || !sku || !price || !stock_quantity || !attribute_values) {
+    const connection = await db.getConnection();
+
+    if (!product_id || !sku || price === null || !stock_quantity || !attribute_values) {
         return res.status(400).json({
             success: false,
             message: 'Required all fields'
@@ -165,8 +167,61 @@ exports.updateProductVariant = async (req, res) => {
     }
 
     try {
-        
-    } catch (err) {
+        await connection.beginTransaction();
 
+        const existing = await productVariantModel.getOtherProductVariantSku(variant_id, sku);
+
+        if (existing) {
+            await connection.rollback();
+            return res.status(409).json({
+                success: false,
+                message: 'SKU already exists!'
+            })
+        }
+
+        const update = await productVariantModel.updateProductVariant(connection, variant_id, product_id, sku, price, stock_quantity);
+
+        if (update === 0) {
+            await connection.rollback();
+            return res.status(404).json({
+                success: false,
+                message: 'Product variant not updated!'
+            })
+        }
+
+        const deleted = await productVariantModel.deleteVariantAttributeValues(connection, variant_id);
+
+        if (deleted === 0) {
+            await connection.rollback();
+            return res.status(404).json({
+                success: false,
+                message: 'Attribute value not deleted!'
+            })
+        }
+
+        for (const valueId of Object.values(attribute_values)) {
+            await productVariantModel.createVariantAttributeValue(
+                connection,
+                variant_id, 
+                valueId
+            )
+        }
+
+        await connection.commit();
+        
+        return res.status(200).json({
+            success: true,
+            message: 'Product variant updated!'
+        })
+
+    } catch (err) {
+        await connection.rollback();
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
+        })
+    } finally {
+        await connection.release();
     }
 }

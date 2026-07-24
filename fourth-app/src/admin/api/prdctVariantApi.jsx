@@ -24,3 +24,8 @@ export const deleteProductVariant = async (id) => {
     const res = await api.delete(`/admin/product-variant/${id}`);
     return res;
 }
+
+export const updateProductVariant = async (id, form) => {
+    const res = await api.put(`/admin/product-variant/${id}`, form);
+    return res;
+}

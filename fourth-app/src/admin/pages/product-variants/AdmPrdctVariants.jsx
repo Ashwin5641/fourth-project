@@ -66,13 +66,13 @@ export default function AdminProductVariants() {
                     </thead>
                     <tbody>
                         {productVariants.map((productVariant, index) => (
-                            <tr key={index}>
+                            <tr key={productVariant.variant_id}>
                                 <td>{index + 1}</td>
                                 <td>{productVariant.product_name}</td>
                                 <td>{productVariant.sku}</td>
                                 <td>
                                     {productVariant.attributes.map((attr, index) => (
-                                        <span key={attr.attribute_name}>
+                                        <span key={attr.attribute_id}>
                                             <strong>{attr.attribute_name}</strong>: {attr.attribute_value}<br />
                                         </span>
                                     ))}

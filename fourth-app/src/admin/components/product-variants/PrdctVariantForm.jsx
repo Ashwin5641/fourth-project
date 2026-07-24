@@ -3,7 +3,7 @@ import './PrdctVariantForm.css'
 
 import Select from "react-select";
 
-import { getAllProducts, getProductAttributes, createProductVariant } from "../../api/prdctVariantApi";
+import { getAllProducts, getProductAttributes, createProductVariant, updateProductVariant } from "../../api/prdctVariantApi";
 
 export default function PrdctVariantForm({onSuccess, editProductVariant, setEditProductVariant}) {
 
@@ -93,9 +93,15 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {   
-            await createProductVariant(form);
-            console.log(form)
+        try {
+            if (editProductVariant) {
+                await updateProductVariant(editProductVariant.variant_id, form);
+                setEditProductVariant(null)
+                setAttributes([])
+            } else {
+                await createProductVariant(form);
+                setAttributes([])
+            }
         } catch (err) {
             console.error(err)
         }
@@ -121,6 +127,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
                     placeholder='Select product'
                     options={productOptions}
                     isSearchable
+                    isDisabled={editProductVariant ? true : false}
                     value={productOptions.find((option) => option.value === form.product_id)}
                     onChange={(selectedOption) =>
                         setForm({
@@ -162,7 +169,8 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
                         )
                     })
                 }
-                <button type="submit">{editProductVariant ? 'Edit' : 'Add'}</button>
+                <button type="submit">{editProductVariant ? 'Update' : 'Add'}</button>
+                {editProductVariant && <button type="button" onClick={() => setEditProductVariant(null)}>Cancel</button>}
             </form>
         </div>
     )
