@@ -79,7 +79,7 @@ export default function AdminProductVariants() {
                                 </td>
                                 <td>{productVariant.price}</td>
                                 <td>{productVariant.stock_quantity}</td>
-                                <td></td>
+                                <td>{productVariant.stock_status}</td>
                                 <td>
                                     <button onClick={() => handleEdit(productVariant)}>Edit</button>
                                     <button onClick={() => handleDelete(productVariant.variant_id)}>Delete</button>

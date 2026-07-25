@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const productVariantModel = require('../models/productVariantModel');
+const inventoryService = require('../services/inventoryService');
 
 exports.getProductAttributes = async (req, res) => {
     const {product_id} = req.params;
@@ -49,6 +50,7 @@ exports.getAllProductVariants = async (req, res) => {
                         sku: row.sku,
                         price: row.price,
                         stock_quantity: row.stock_quantity,
+                        stock_status: inventoryService.getStockStatus(row.stock_quantity),
                         attributes: []
                     };
                 }

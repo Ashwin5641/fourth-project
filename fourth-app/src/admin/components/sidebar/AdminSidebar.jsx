@@ -65,8 +65,16 @@ const menus = [
         title: "Inventory",
         children: [
             {
-                title: "Stock",
-                path: "/admin/stock"
+                title: "Stock Dashboard",
+                path: "/admin/stock-dashboard"
+            },
+            {
+                title: 'Inventory History',
+                path: '/admin/inventory-hostory'
+            },
+            {
+                title: 'Low stock alerts',
+                path: '/admin/low-stock-alerts'
             }
         ]
     },

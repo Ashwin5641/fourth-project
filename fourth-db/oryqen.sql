@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2026 at 01:29 PM
+-- Generation Time: Jul 25, 2026 at 01:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -253,7 +253,7 @@ CREATE TABLE `product_variants` (
 
 INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `created_at`, `updated_at`) VALUES
 (2, 7, 'FJ-BLK-28', 599.00, 10, '2026-07-20 10:54:34', '2026-07-24 07:09:52'),
-(3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-21 05:14:27'),
+(3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-25 08:22:29'),
 (6, 5, 'SMT-RED-M', 350.00, 7, '2026-07-23 08:51:03', '2026-07-24 08:37:23');
 
 -- --------------------------------------------------------
@@ -299,8 +299,8 @@ CREATE TABLE `variant_attribute_values` (
 INSERT INTO `variant_attribute_values` (`id`, `variant_id`, `attribute_value_id`) VALUES
 (14, 2, 1),
 (15, 2, 4),
-(3, 3, 5),
-(4, 3, 11),
+(24, 3, 5),
+(25, 3, 11),
 (20, 6, 4),
 (19, 6, 5),
 (21, 6, 9);
@@ -460,7 +460,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `variant_attribute_values`
 --
 ALTER TABLE `variant_attribute_values`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
