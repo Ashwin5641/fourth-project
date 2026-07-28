@@ -44,6 +44,14 @@ const invtryDshbrdModel = {
             [keyword, keyword, keyword]
         );
         return rows;
+    },
+
+    updateStkQuantity: async (variant_id, stock_quantity) => {
+        const [rows] = await db.query(
+            'UPDATE product_variants SET stock_quantity WHERE id = ?',
+            [stock_quantity, variant_id]
+        );
+        return rows.affectedRows;
     }
 }
 

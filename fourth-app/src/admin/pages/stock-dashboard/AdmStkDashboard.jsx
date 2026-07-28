@@ -8,6 +8,8 @@ export default function AdmStkDashboard() {
     const [stockValues, setStockValues] = useState([]);
     const [search, setSearch] = useState('');
 
+    const [editStock, setEditStock] = useState(null);
+
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchAllStocks(search)
@@ -23,6 +25,15 @@ export default function AdmStkDashboard() {
         } catch (err) {
             console.error(err)
         }
+    }
+
+    const handleEdit = (edit) => {
+        setEditStock(edit);
+        console.log(edit)
+    }
+
+    const handleSubmit = async (e) => {
+        
     }
 
     return (
@@ -66,13 +77,63 @@ export default function AdmStkDashboard() {
                                 <td>{stockValue.stock_quantity}</td>
                                 <td>{stockValue.stock_status}</td>
                                 <td>
-                                    <button>Update</button>
+                                    <button onClick={() => handleEdit(stockValue)}>Update</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+            {
+                editStock && 
+                <div onClick={() => setEditStock(null)} className='editStock-overlay'>
+                    <div onClick={(e) => e.stopPropagation()} className="editStock-model">
+                        <form>
+                            <p><span>Product Name:</span><span>{editStock.product_name}</span></p>
+                            <br />
+                            <p><span>Product SKU:</span><span>{editStock.sku}</span></p>
+                            <br />
+                            <p><span>Current Stock:</span><span>{editStock.stock_quantity}</span></p>
+                            <br />
+                            <div className="editStock-form-grp">
+                                <label>Quantity: </label>
+                                <input type="number" min={0} placeholder="Enter quantity" />
+                            </div>
+                            <br />
+                            <div className="editStock-form-reason">
+                                <p>Operation: </p>
+                                <div className="editStock-form-reason-radio">
+                                    <input name="operation" type="radio" /><span>Add Stock</span>
+                                </div>
+                                <div className="editStock-form-reason-radio">
+                                    <input name="operation" type="radio" /><span>Remove Stock</span>
+                                </div>
+                                <div className="editStock-form-reason-radio">
+                                    <input name="operation" type="radio" /><span>Set Exact Stock</span>
+                                </div>
+                            </div>
+                            <br />
+                            <div className="editStock-form-grp">
+                                <label>Reason:</label>
+                                <select>
+                                    <option value="">Select Reason</option>
+                                    <option value="Purchase">Purchase</option>
+                                    <option value="Stock Adjustment">Stock Adjustment</option>
+                                    <option value="Customer Return">Customer Return</option>
+                                    <option value="Damaged">Damaged</option>
+                                    <option value="Supplier Return">Supplier Return</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <br />
+                            <div className="editStock-form-buttons">
+                                <button>Update</button>
+                                <button onClick={() => setEditStock(null)}>Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

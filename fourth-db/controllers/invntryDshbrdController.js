@@ -30,7 +30,7 @@ exports.getStockDashboard = async (req, res) => {
                 });
 
                 return groupedStock;
-            }, {}) 
+            }, {})
         ) 
 
         return res.status(200).json({
@@ -42,6 +42,26 @@ exports.getStockDashboard = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Please try again later'
+        })
+    }
+}
+
+exports.updateStockkQuantity = async (req, res) => {
+    const {variant_id} = req.params;
+    const {stock_quantity} = req.body;
+
+    try {
+        const updateQuantity = await invtryDshbrdModel.updateStkQuantity(variant_id, stock_quantity);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Stock updated successfully!'
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Please try again later!'
         })
     }
 }
