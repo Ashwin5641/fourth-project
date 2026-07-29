@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import './AdmStkDashboard.css';
 
-import { getStockDashboard } from "../../api/AdmStkDshbrdApi";
+import { getStockDashboard, updateStkOfPrdctVrnt } from "../../api/AdmStkDshbrdApi";
 
 export default function AdmStkDashboard() {
 
@@ -9,6 +9,11 @@ export default function AdmStkDashboard() {
     const [search, setSearch] = useState('');
 
     const [editStock, setEditStock] = useState(null);
+
+    const [form, setForm] = useState({
+        quantity: '',
+        operation: ''
+    })
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -29,11 +34,55 @@ export default function AdmStkDashboard() {
 
     const handleEdit = (edit) => {
         setEditStock(edit);
-        console.log(edit)
+        setForm({
+            quantity: '',
+            operation: ''
+        });
+    }
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name] : e.target.value
+        })
     }
 
     const handleSubmit = async (e) => {
-        
+        e.preventDefault();
+
+        if (editStock) {
+
+            const payload = {
+                stock_quantity: editStock.stock_quantity,
+                quantity: form.quantity,
+                operation: form.operation
+            }
+
+            if(!form.quantity || Number(form.quantity) <= 0){
+                alert("Enter valid quantity");
+                return;
+            }
+
+            if (!form.operation) {
+                alert("Select operation");
+                return;
+            }
+
+            try {
+                await updateStkOfPrdctVrnt(editStock.variant_id, payload);
+                fetchAllStocks(search);
+                setEditStock(null);
+
+                setForm({
+                    quantity: '',
+                    operation: ''
+                });
+            } catch (err) {
+                console.error(err)
+            }
+        } else {
+            return 'None'
+        }
     }
 
     return (
@@ -88,7 +137,7 @@ export default function AdmStkDashboard() {
                 editStock && 
                 <div onClick={() => setEditStock(null)} className='editStock-overlay'>
                     <div onClick={(e) => e.stopPropagation()} className="editStock-model">
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <p><span>Product Name:</span><span>{editStock.product_name}</span></p>
                             <br />
                             <p><span>Product SKU:</span><span>{editStock.sku}</span></p>
@@ -97,24 +146,24 @@ export default function AdmStkDashboard() {
                             <br />
                             <div className="editStock-form-grp">
                                 <label>Quantity: </label>
-                                <input type="number" min={0} placeholder="Enter quantity" />
+                                <input name="quantity" value={form.quantity} onChange={handleChange} type="number" min={0} placeholder="Enter quantity" />
                             </div>
                             <br />
                             <div className="editStock-form-reason">
                                 <p>Operation: </p>
                                 <div className="editStock-form-reason-radio">
-                                    <input name="operation" type="radio" /><span>Add Stock</span>
+                                    <input name="operation" onChange={handleChange} value='add' type="radio" /><span>Add Stock</span>
                                 </div>
                                 <div className="editStock-form-reason-radio">
-                                    <input name="operation" type="radio" /><span>Remove Stock</span>
+                                    <input name="operation" onChange={handleChange} value='remove' type="radio" /><span>Remove Stock</span>
                                 </div>
                                 <div className="editStock-form-reason-radio">
-                                    <input name="operation" type="radio" /><span>Set Exact Stock</span>
+                                    <input name="operation" onChange={handleChange} value='set' type="radio" /><span>Set Exact Stock</span>
                                 </div>
                             </div>
                             <br />
                             <div className="editStock-form-grp">
-                                <label>Reason:</label>
+                                <label>Reason: </label>
                                 <select>
                                     <option value="">Select Reason</option>
                                     <option value="Purchase">Purchase</option>
@@ -128,7 +177,7 @@ export default function AdmStkDashboard() {
                             <br />
                             <div className="editStock-form-buttons">
                                 <button>Update</button>
-                                <button onClick={() => setEditStock(null)}>Cancel</button>
+                                <button type="button" onClick={() => setEditStock(null)}>Cancel</button>
                             </div>
                         </form>
                     </div>

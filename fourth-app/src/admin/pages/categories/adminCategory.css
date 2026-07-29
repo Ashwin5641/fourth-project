@@ -25,6 +25,26 @@
     margin-top: 20px;
 }
 
+.category-dash-search {
+    margin-top: 20px;
+}
+
+.category-dash-search > input {
+    height: 35px;
+    border: none;
+    background-color: #ddd;
+    width: 100%;
+    outline: none;
+    color: #000;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.category-dash-search > input:active {
+    border: none;
+    outline: none;
+}
+
 .category-dash-table table {
     margin-top: 20px;
     width: 100%;

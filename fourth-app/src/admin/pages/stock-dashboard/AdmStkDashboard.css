@@ -81,6 +81,10 @@
     margin-left: 8px;
 }
 
+.editStock-model > form > p > input {
+    margin-left: 8px;
+}
+
 .editStock-model > form > .editStock-form-grp {
     display: flex;
     gap: 8px;

@@ -122,8 +122,11 @@ exports.deleteCategory = async (req, res) => {
 }
 
 exports.getAllCategoriesWithParent = async (req, res) => {
+
+    const {search = ''} = req.query;
+
     try {
-        const categoryWithParent = await categoryModel.getAllCategoriesWithParent();
+        const categoryWithParent = await categoryModel.getAllCategoriesWithParent(search);
 
         return res.status(200).json({
             success: true,

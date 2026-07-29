@@ -49,7 +49,10 @@ const categoryModel = {
         return result.affectedRows;
     },
 
-    getAllCategoriesWithParent: async () => {
+    getAllCategoriesWithParent: async (search) => {
+
+        const keyword = `%${search}%`
+
         const [rows] = await db.query(
             `
                 SELECT
@@ -67,8 +70,12 @@ const categoryModel = {
                 LEFT JOIN categories gp
                     ON p.parent_id = gp.id
                 LEFT JOIN categories ggp
-                    ON gp.parent_id = ggp.id;
-            `
+                    ON gp.parent_id = ggp.id
+                WHERE 
+                    c.name LIKE ?
+                    OR c.slug LIKE ?
+            `,
+            [keyword, keyword]
         );
         return rows;
     }

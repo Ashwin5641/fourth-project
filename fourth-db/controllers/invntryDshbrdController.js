@@ -48,15 +48,19 @@ exports.getStockDashboard = async (req, res) => {
 
 exports.updateStockkQuantity = async (req, res) => {
     const {variant_id} = req.params;
-    const {stock_quantity} = req.body;
+    const {stock_quantity, quantity, operation} = req.body;
 
     try {
-        const updateQuantity = await invtryDshbrdModel.updateStkQuantity(variant_id, stock_quantity);
+
+        const performOperation = inventoryService.performOperation(stock_quantity, Number(quantity), operation);
+
+        await invtryDshbrdModel.updateStkQuantity(variant_id, performOperation);
 
         return res.status(200).json({
             success: true,
             message: 'Stock updated successfully!'
         })
+        
     } catch (err) {
         console.error(err);
         return res.status(500).json({

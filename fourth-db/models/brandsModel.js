@@ -18,9 +18,12 @@ const brandsModel = {
         return rows[0]
     },
 
-    getAllBrands: async () => {
+    getAllBrands: async (search) => {
+        const keyword = `%${search}%`
+
         const [rows] = await db.query(
-            'SELECT * FROM brands'
+            'SELECT * FROM brands WHERE name LIKE ? OR slug LIKE ?',
+            [keyword, keyword]
         );
         return rows;
     },

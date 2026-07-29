@@ -11,13 +11,19 @@ export default function AdminCategory() {
 
     const [editCategory, setEditCategory] = useState(null);
 
-    useEffect(() => {
-        fetchCategories();
-    }, [])
+    const [search, setSearch] = useState('');
 
-    const fetchCategories = async () => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            fetchCategories(search);
+        }, 400);
+
+        return () => clearTimeout(timer)
+    }, [search])
+
+    const fetchCategories = async (search = '') => {
         try {
-            const res = await getAllCategoriesWithParent();
+            const res = await getAllCategoriesWithParent(search);
             setCategories(res.data)
         } catch (err) {
             console.error(err)
@@ -45,6 +51,14 @@ export default function AdminCategory() {
                 </div>
                 <div className="category-dash-form">
                     <CategoryForm onSuccess={fetchCategories} categories={categories} editCategory={editCategory} setEditCategory={setEditCategory} />
+                </div>
+                <div className="category-dash-search">
+                    <input
+                        type="text"
+                        placeholder="Search categories...."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
                 </div>
                 <div className="category-dash-table">
                     <table>

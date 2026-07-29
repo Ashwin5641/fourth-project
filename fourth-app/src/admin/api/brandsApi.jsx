@@ -9,8 +9,12 @@ export const createBrand = async (formData) => {
     return res;
 };
 
-export const getAllBrands = async () => {
-    const res = await api.get('/admin/brands');
+export const getAllBrands = async (search = '') => {
+    const res = await api.get('/admin/brands', {
+        params: {
+            search
+        }
+    });
     return res;
 }
 

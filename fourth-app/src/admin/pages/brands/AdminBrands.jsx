@@ -8,14 +8,20 @@ export default function AdminBrands() {
 
     const [getBrands, setGetBrands] = useState([]);
     const [editBrand, setEditBrand] = useState(null);
+
+    const [search, setSearch] = useState('');
  
     useEffect(() => {
-        fetchAllBrands();
-    }, [])
+        const timer = setTimeout(() => {
+            fetchAllBrands(search);
+        }, 400);
 
-    const fetchAllBrands = async () => {
+        return () => clearTimeout(timer)
+    }, [search])
+
+    const fetchAllBrands = async (search = '') => {
         try {
-            const res = await getAllBrands();
+            const res = await getAllBrands(search);
             setGetBrands(res.data)
         } catch (err) {
             console.error(err)
@@ -42,6 +48,14 @@ export default function AdminBrands() {
             </div>
             <div className="brands-dash-form">
                 <BrandsForm onSuccess={fetchAllBrands} editBrand={editBrand} setEditBrand={setEditBrand} />
+            </div>
+            <div className="brands-dash-search">
+                <input
+                    type="text"
+                    placeholder="Search brand or slug...."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
             </div>
             <div className="brands-dash-table">
                 <table>

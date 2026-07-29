@@ -28,7 +28,11 @@ export const deleteCategory = async (id) => {
     return res;
 }
 
-export const getAllCategoriesWithParent = async () => {
-    const res = await api.get('/admin/category');
+export const getAllCategoriesWithParent = async (search = '') => {
+    const res = await api.get('/admin/category', {
+        params: {
+            search
+        }
+    });
     return res;
 }

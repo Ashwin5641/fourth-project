@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2026 at 01:34 PM
+-- Generation Time: Jul 29, 2026 at 01:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -252,7 +252,7 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `created_at`, `updated_at`) VALUES
-(2, 7, 'FJ-BLK-28', 599.00, 10, '2026-07-20 10:54:34', '2026-07-24 07:09:52'),
+(2, 7, 'FJ-BLK-28', 599.00, 10, '2026-07-20 10:54:34', '2026-07-29 08:36:25'),
 (3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-25 08:22:29'),
 (6, 5, 'SMT-RED-M', 350.00, 7, '2026-07-23 08:51:03', '2026-07-24 08:37:23');
 

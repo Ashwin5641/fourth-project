@@ -3,8 +3,10 @@ const path = require('path');
 const fs = require('fs')
 
 exports.getAllBrands = async (req, res) => {
+    const {search = ''} = req.query;
+
     try {
-        const brands = await brandsModel.getAllBrands();
+        const brands = await brandsModel.getAllBrands(search);
 
         return res.status(200).json({
             success: true,
