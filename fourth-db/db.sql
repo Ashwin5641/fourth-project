@@ -129,3 +129,20 @@ CREATE TABLE category_attributes (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
     FOREIGN KEY (attribute_id) REFERENCES attributes(id) ON DELETE CASCADE
 )
+
+CREATE TABLE stock_movements(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    variant_id INT NOT NULL,
+    operation ENUM('add', 'remove', 'set') NOT NULL,
+    previous_quantity INT NOT NULL,
+    quantity_changed INT NOT NULL,
+    new_quantity INT NOT NULL,
+    reason ENUM('Purchase','Sale','Customer Return','Damaged','Stock Adjustment','Other') NOT NULL,
+    remarks TEXT NULL,
+    created_by INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (variant_id) REFERENCES product_variants(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_variant (variant_id),
+    INDEX idx_created_at (created_at)
+)

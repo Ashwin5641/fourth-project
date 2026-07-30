@@ -46,12 +46,22 @@ const invtryDshbrdModel = {
         return rows;
     },
 
-    updateStkQuantity: async (variant_id, performOperation) => {
-        const [rows] = await db.query(
+    updateStkQuantity: async (connection, variant_id, performOperation) => {
+        const [result] = await connection.query(
             'UPDATE product_variants SET stock_quantity = ? WHERE id = ?',
             [performOperation, variant_id]
         );
-        return rows.affectedRows;
+        return result.affectedRows;
+    },
+
+    createStockMovement: async (connection, variant_id, operation, stock_quantity, quantity, performOperation, reason, created_by) => {
+        await connection.query(
+            `
+            INSERT INTO stock_movements (variant_id, operation, previous_quantity, quantity_changed, new_quantity, reason, created_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            `,
+            [variant_id, operation, stock_quantity, quantity, performOperation, reason, created_by]
+        )
     }
 }
 

@@ -13,9 +13,18 @@ exports.authenticateToken = (req, res, next) => {
 
     jwt.verify(token, process.env.ACCESS_SECRET, (err, user) => {
         if (err) {
+            if (err.name === "TokenExpiredError") {
+                console.log("Access token expired, requesting refresh...");
+                return res.status(401).json({
+                    message: "Access token expired"
+                });
+            }
+
+            console.error(err);
+
             return res.status(403).json({
-                message: 'Invalid Token'
-            })
+                message: "Invalid token"
+            });
         }
 
         req.user = user;
@@ -26,7 +35,7 @@ exports.authenticateToken = (req, res, next) => {
 
 exports.isAdmin = (req, res, next) => {
     if (req.user.role !== 'admin') {
-        return res.status(200).json({
+        return res.status(403).json({
             success: false,
             message: 'Access denied'
         })

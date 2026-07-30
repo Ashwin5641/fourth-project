@@ -1,5 +1,6 @@
 const invtryDshbrdModel = require('../models/invntryDshbrdModel');
 const inventoryService = require('../services/inventoryService');
+const db = require('../config/db');
 
 exports.getStockDashboard = async (req, res) => {
     const {search = ''} = req.query;
@@ -48,13 +49,31 @@ exports.getStockDashboard = async (req, res) => {
 
 exports.updateStockkQuantity = async (req, res) => {
     const {variant_id} = req.params;
-    const {stock_quantity, quantity, operation} = req.body;
+    const {stock_quantity, quantity, operation, reason} = req.body;
+
+    const created_by = req.user.id;
+
+    const connection = await db.getConnection();
 
     try {
 
+        await connection.beginTransaction();
+
         const performOperation = inventoryService.performOperation(stock_quantity, Number(quantity), operation);
 
-        await invtryDshbrdModel.updateStkQuantity(variant_id, performOperation);
+        const stockUpdate = await invtryDshbrdModel.updateStkQuantity(connection, variant_id, performOperation);
+
+        if (stockUpdate === 0) {
+            await connection.rollback();
+            return res.status(404).json({
+                success: false,
+                message: 'Stock not updated'
+            })
+        }
+
+        const stockMovements = await invtryDshbrdModel.createStockMovement(connection, variant_id, operation, stock_quantity, quantity, performOperation, reason, created_by);
+
+        await connection.commit();
 
         return res.status(200).json({
             success: true,
@@ -62,10 +81,13 @@ exports.updateStockkQuantity = async (req, res) => {
         })
         
     } catch (err) {
+        await connection.rollback();
         console.error(err);
         return res.status(500).json({
             success: false,
             message: 'Please try again later!'
         })
+    } finally {
+        await connection.release();
     }
 }

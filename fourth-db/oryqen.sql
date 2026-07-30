@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2026 at 01:03 PM
+-- Generation Time: Jul 30, 2026 at 01:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -252,9 +252,37 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `created_at`, `updated_at`) VALUES
-(2, 7, 'FJ-BLK-28', 599.00, 10, '2026-07-20 10:54:34', '2026-07-29 08:36:25'),
+(2, 7, 'FJ-BLK-28', 599.00, 15, '2026-07-20 10:54:34', '2026-07-30 06:03:31'),
 (3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-25 08:22:29'),
 (6, 5, 'SMT-RED-M', 350.00, 7, '2026-07-23 08:51:03', '2026-07-24 08:37:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stock_movements`
+--
+
+CREATE TABLE `stock_movements` (
+  `id` int(11) NOT NULL,
+  `variant_id` int(11) NOT NULL,
+  `operation` enum('add','remove','set') NOT NULL,
+  `previous_quantity` int(11) NOT NULL,
+  `quantity_changed` int(11) NOT NULL,
+  `new_quantity` int(11) NOT NULL,
+  `reason` enum('Purchase','Sale','Customer Return','Damaged','Stock Adjustment','Other') NOT NULL,
+  `remarks` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `stock_movements`
+--
+
+INSERT INTO `stock_movements` (`id`, `variant_id`, `operation`, `previous_quantity`, `quantity_changed`, `new_quantity`, `reason`, `remarks`, `created_by`, `created_at`) VALUES
+(1, 2, 'add', 10, 5, 15, 'Purchase', NULL, NULL, '2026-07-30 05:32:51'),
+(2, 2, 'remove', 15, 5, 10, 'Stock Adjustment', NULL, 2, '2026-07-30 05:56:15'),
+(3, 2, 'add', 10, 5, 15, 'Purchase', NULL, 2, '2026-07-30 06:03:31');
 
 -- --------------------------------------------------------
 
@@ -378,6 +406,15 @@ ALTER TABLE `product_variants`
   ADD KEY `idx_product_id` (`product_id`);
 
 --
+-- Indexes for table `stock_movements`
+--
+ALTER TABLE `stock_movements`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`),
+  ADD KEY `idx_variant` (`variant_id`),
+  ADD KEY `idx_created_at` (`created_at`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -451,6 +488,12 @@ ALTER TABLE `product_variants`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `stock_movements`
+--
+ALTER TABLE `stock_movements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -503,6 +546,13 @@ ALTER TABLE `product_images`
 --
 ALTER TABLE `product_variants`
   ADD CONSTRAINT `product_variants_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `stock_movements`
+--
+ALTER TABLE `stock_movements`
+  ADD CONSTRAINT `stock_movements_ibfk_1` FOREIGN KEY (`variant_id`) REFERENCES `product_variants` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stock_movements_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `variant_attribute_values`

@@ -12,7 +12,8 @@ export default function AdmStkDashboard() {
 
     const [form, setForm] = useState({
         quantity: '',
-        operation: ''
+        operation: '',
+        reason: ''
     })
 
     useEffect(() => {
@@ -36,7 +37,8 @@ export default function AdmStkDashboard() {
         setEditStock(edit);
         setForm({
             quantity: '',
-            operation: ''
+            operation: '',
+            reason: ''
         });
     }
 
@@ -55,7 +57,8 @@ export default function AdmStkDashboard() {
             const payload = {
                 stock_quantity: editStock.stock_quantity,
                 quantity: form.quantity,
-                operation: form.operation
+                operation: form.operation,
+                reason: form.reason
             }
 
             if(!form.quantity || Number(form.quantity) <= 0){
@@ -68,14 +71,19 @@ export default function AdmStkDashboard() {
                 return;
             }
 
+            if (!form.reason) {
+                alert("Select reason");
+                return;
+            }
+
             try {
                 await updateStkOfPrdctVrnt(editStock.variant_id, payload);
-                fetchAllStocks(search);
                 setEditStock(null);
-
+                fetchAllStocks(search)
                 setForm({
                     quantity: '',
-                    operation: ''
+                    operation: '',
+                    reason: ''
                 });
             } catch (err) {
                 console.error(err)
@@ -164,7 +172,11 @@ export default function AdmStkDashboard() {
                             <br />
                             <div className="editStock-form-grp">
                                 <label>Reason: </label>
-                                <select>
+                                <select 
+                                    name="reason"
+                                    value={form.reason}
+                                    onChange={handleChange}
+                                >
                                     <option value="">Select Reason</option>
                                     <option value="Purchase">Purchase</option>
                                     <option value="Stock Adjustment">Stock Adjustment</option>
