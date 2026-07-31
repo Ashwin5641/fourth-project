@@ -64,3 +64,22 @@
     background-color: #1e293b;
     color: white;
 }
+
+.admInventory-pagination { 
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.admInventory-pagination span {
+    color: #1e293b;
+}
+
+.admInventory-pagination button {
+    border: none;
+    padding: 6px 6px;
+    background: none;
+    color: #ddd;
+    background-color: #1e293b;
+    border-radius: 8px;
+}

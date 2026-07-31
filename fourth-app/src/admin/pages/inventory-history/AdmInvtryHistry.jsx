@@ -50,7 +50,7 @@ export default function AdminInventoryHistory() {
                     <label>Show: </label>
                     <select
                         value={limit}
-                        onChange={(e)=>setLimit(Number(e.target.value))}
+                        onChange={(e) => {setLimit(Number(e.target.value)); setPage(1);}}
                     >
                         <option value={10}>10</option>
                         <option value={25}>25</option>
@@ -62,7 +62,7 @@ export default function AdminInventoryHistory() {
                     <label>Sort By: </label>
                     <select
                         value={sort}
-                        onChange={(e)=>setSort(e.target.value)}
+                        onChange={(e) => {setSort(e.target.value); setPage(1)}}
                     >
                         <option value="newest">Newest</option>
                         <option value="oldest">Oldest</option>
@@ -104,6 +104,28 @@ export default function AdminInventoryHistory() {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <br />
+            <div className="admInventory-pagination">
+                <button
+                    disabled={page === 1}
+                    onClick={() => setPage(page - 1)}
+                >
+                    Previous
+                </button>
+
+                <span>
+                    <p>
+                        Showing Page {page} of {totalPages} ({totalRecords} records)
+                    </p>
+                </span>
+
+                <button
+                    disabled={page === totalPages}
+                    onClick={() => setPage(page + 1)}
+                >
+                    Next
+                </button>
             </div>
         </div>
     )
