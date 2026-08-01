@@ -16,6 +16,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
         sku: '',
         price: '',
         stock_quantity: '',
+        minimum_stock: '',
         attribute_values: {}
     })
 
@@ -34,6 +35,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
                 sku: editProductVariant.sku,
                 price: editProductVariant.price,
                 stock_quantity: editProductVariant.stock_quantity,
+                minimum_stock: editProductVariant.minimum_stock,
                 attribute_values: attributeValues
             })
         } else {
@@ -42,6 +44,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
                 sku: '',
                 price: '',
                 stock_quantity: '',
+                minimum_stock: '',
                 attribute_values: {}
             })
         }
@@ -111,6 +114,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
             sku: '',
             price: '',
             stock_quantity: '',
+            minimum_stock: '',
             attribute_values: {}
         })
 
@@ -139,6 +143,7 @@ export default function PrdctVariantForm({onSuccess, editProductVariant, setEdit
                 <input type="text" value={form.sku} name="sku" placeholder="Stock keeping unit" onChange={handleChange} /><br /><br />
                 <input type="number" value={form.price} name="price" placeholder="Price" onChange={handleChange} min={0} /><br /><br />
                 <input type="number" value={form.stock_quantity} name="stock_quantity" placeholder="Stock Quantity" onChange={handleChange} min={0} /><br /><br />
+                <input type="number" value={form.minimum_stock} name="minimum_stock" placeholder="Enter minumum stock" onChange={handleChange} min={0} /><br /><br />
                 {
                     attributes.map((attribute) => {
 

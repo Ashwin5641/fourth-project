@@ -13,6 +13,7 @@ import AdminProductVariants from "./pages/product-variants/AdmPrdctVariants";
 import AdmCatgryAttributes from "./pages/category-attributes/AdmCatgryAttributes";
 import AdmStkDashboard from "./pages/stock-dashboard/AdmStkDashboard";
 import AdminInventoryHistory from "./pages/inventory-history/AdmInvtryHistry";
+import AdmLowStockAlerts from "./pages/low-stock-alerts/AdmLowStckAlert";
 
 const adminRoutes = [
     {
@@ -70,6 +71,10 @@ const adminRoutes = [
             {
                 path: 'inventory-hostory',
                 element: <AdminInventoryHistory />
+            },
+            {
+                path: 'low-stock-alerts',
+                element: <AdmLowStockAlerts />
             }
         ]
     }

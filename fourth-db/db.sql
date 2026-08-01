@@ -106,6 +106,7 @@ CREATE table product_variants(
     sku VARCHAR(100) UNIQUE NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     stock_quantity INT DEFAULT 0,
+    minimum_quantity INT NOT NULL DEFAULT 5,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,

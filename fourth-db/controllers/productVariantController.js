@@ -50,6 +50,7 @@ exports.getAllProductVariants = async (req, res) => {
                         sku: row.sku,
                         price: row.price,
                         stock_quantity: row.stock_quantity,
+                        minimum_stock: row.minimum_stock,
                         stock_status: inventoryService.getStockStatus(row.stock_quantity),
                         attributes: []
                     };
@@ -83,11 +84,11 @@ exports.getAllProductVariants = async (req, res) => {
 }
 
 exports.createProductVariants = async (req, res) => {
-    const {product_id, sku, price, stock_quantity, attribute_values} = req.body;
+    const {product_id, sku, price, stock_quantity, minimum_stock, attribute_values} = req.body;
 
     const connection = await db.getConnection();
 
-    if (!product_id || !sku || !price || !stock_quantity) {
+    if (!product_id || !sku || !price || !stock_quantity || !minimum_stock) {
         return res.status(400).json({
             success: false,
             message: 'Required all fields'
@@ -107,7 +108,7 @@ exports.createProductVariants = async (req, res) => {
             })
         }
 
-        const variantId = await productVariantModel.createProductVariant(connection, product_id, sku, price, stock_quantity);
+        const variantId = await productVariantModel.createProductVariant(connection, product_id, sku, price, stock_quantity, minimum_stock);
 
         for (const valueId of Object.values(attribute_values)) {
             await productVariantModel.createVariantAttributeValue(
@@ -157,11 +158,11 @@ exports.deleteProductVariant = async (req, res) => {
 
 exports.updateProductVariant = async (req, res) => {
     const {variant_id} = req.params;
-    const {product_id, sku, price, stock_quantity, attribute_values} = req.body;
+    const {product_id, sku, price, stock_quantity, minimum_stock, attribute_values} = req.body;
 
     const connection = await db.getConnection();
 
-    if (!product_id || !sku || price === null || !stock_quantity || !attribute_values) {
+    if (!product_id || !sku || price === null || !stock_quantity || !minimum_stock || !attribute_values) {
         return res.status(400).json({
             success: false,
             message: 'Required all fields'
@@ -181,7 +182,7 @@ exports.updateProductVariant = async (req, res) => {
             })
         }
 
-        const update = await productVariantModel.updateProductVariant(connection, variant_id, product_id, sku, price, stock_quantity);
+        const update = await productVariantModel.updateProductVariant(connection, variant_id, product_id, sku, price, stock_quantity, minimum_stock);
 
         if (update === 0) {
             await connection.rollback();

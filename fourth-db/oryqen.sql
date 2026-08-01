@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2026 at 01:37 PM
+-- Generation Time: Aug 01, 2026 at 01:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -243,6 +243,7 @@ CREATE TABLE `product_variants` (
   `sku` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `stock_quantity` int(11) DEFAULT 0,
+  `minimum_stock` int(11) NOT NULL DEFAULT 5,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -251,10 +252,10 @@ CREATE TABLE `product_variants` (
 -- Dumping data for table `product_variants`
 --
 
-INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `created_at`, `updated_at`) VALUES
-(2, 7, 'FJ-BLK-28', 599.00, 15, '2026-07-20 10:54:34', '2026-07-30 06:03:31'),
-(3, 7, 'FJ-RED-30', 499.00, 5, '2026-07-21 05:14:27', '2026-07-25 08:22:29'),
-(6, 5, 'SMT-RED-M', 350.00, 7, '2026-07-23 08:51:03', '2026-07-24 08:37:23');
+INSERT INTO `product_variants` (`id`, `product_id`, `sku`, `price`, `stock_quantity`, `minimum_stock`, `created_at`, `updated_at`) VALUES
+(2, 7, 'FJ-BLK-28', 599.00, 15, 5, '2026-07-20 10:54:34', '2026-07-30 06:03:31'),
+(3, 7, 'FJ-RED-30', 499.00, 5, 5, '2026-07-21 05:14:27', '2026-07-25 08:22:29'),
+(6, 5, 'SMT-RED-M', 350.00, 7, 5, '2026-07-23 08:51:03', '2026-07-24 08:37:23');
 
 -- --------------------------------------------------------
 

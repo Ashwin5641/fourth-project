@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.admLowStkAlert-dash {
+    padding: 20px;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.admLowStkAlert-dash-header {
+    background-color: #1e293b;
+    color: #ffffff;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.admLowStkAlert-dash-table table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admLowStkAlert-dash-table th,
+.admLowStkAlert-dash-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.admLowStkAlert-dash-table th {
+    background-color: #1e293b;
+    color: white;
+}

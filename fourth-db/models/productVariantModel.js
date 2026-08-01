@@ -63,15 +63,15 @@ const productVariantModel = {
         return rows;
     },
 
-    createProductVariant: async (connection, product_id, sku, price, stock_quantity) => {
+    createProductVariant: async (connection, product_id, sku, price, stock_quantity, minimum_stock) => {
 
         const [result] = await connection.query(
             `
             INSERT INTO product_variants
-            (product_id, sku, price, stock_quantity)
-            VALUES (?,?,?,?)
+            (product_id, sku, price, stock_quantity, minimum_stock)
+            VALUES (?, ?, ?, ?, ?)
             `,
-            [product_id, sku, price, stock_quantity]
+            [product_id, sku, price, stock_quantity, minimum_stock]
             );
 
         return result.insertId;
@@ -97,6 +97,7 @@ const productVariantModel = {
                 pv.sku, 
                 pv.price, 
                 pv.stock_quantity,
+                pv.minimum_stock,
                 a.id AS attribute_id,
                 av.id AS attribute_value_id,
                 a.name AS attribute_name, 
@@ -149,7 +150,7 @@ const productVariantModel = {
         return rows[0]
     },
 
-    updateProductVariant: async (connection, variant_id, product_id, sku, price, stock_quantity) => {
+    updateProductVariant: async (connection, variant_id, product_id, sku, price, stock_quantity, minimum_stock) => {
         const [result] = await connection.query(
             `
             UPDATE 
@@ -158,11 +159,12 @@ const productVariantModel = {
                 product_id = ?, 
                 sku = ?, 
                 price = ?, 
-                stock_quantity = ?
+                stock_quantity = ?,
+                minimum_stock = ?
             WHERE
                 id = ?
             `,
-            [product_id, sku, price, stock_quantity, variant_id]
+            [product_id, sku, price, stock_quantity, variant_id, minimum_stock]
         );
         return result.affectedRows;
     },

@@ -49,6 +49,8 @@ app.use('/admin/stock-dashboard', require('./routes/invntryDshbrdRoutes'));
 
 app.use('/admin/inventory-history', require('./routes/inventoryHistoryRoutes'));
 
+app.use('/admin/low-stock-alerts', require('./routes/lowStkAlertsRoutes'));
+
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}`)
 })

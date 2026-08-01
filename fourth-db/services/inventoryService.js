@@ -9,6 +9,18 @@ const inventoryService = {
         if (operation === 'add') return stock_quantity + quantity;
         if (operation === 'remove') return Math.max(0, stock_quantity - quantity);
         return quantity;
+    },
+
+    lowStockAlert: (stockQuantity, minimumStock) => {
+        if (stockQuantity === 0) {
+            return "Out of Stock";
+        }
+
+        if (stockQuantity < minimumStock) {
+            return "Low Stock";
+        }
+
+        return "Minimum Level";
     }
 }
 

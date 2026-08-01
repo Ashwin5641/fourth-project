@@ -60,6 +60,7 @@ export default function AdminProductVariants() {
                             <th>Attributes</th>
                             <th>Price</th>
                             <th>Stock</th>
+                            <th>Minimum Stock</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -79,6 +80,7 @@ export default function AdminProductVariants() {
                                 </td>
                                 <td>{productVariant.price}</td>
                                 <td>{productVariant.stock_quantity}</td>
+                                <td>{productVariant.minimum_stock}</td>
                                 <td>{productVariant.stock_status}</td>
                                 <td>
                                     <button onClick={() => handleEdit(productVariant)}>Edit</button>

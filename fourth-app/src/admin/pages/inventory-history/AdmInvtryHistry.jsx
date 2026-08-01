@@ -90,7 +90,7 @@ export default function AdminInventoryHistory() {
                     <tbody>
                         {inventoryHistory.map((history, index) => (
                             <tr key={history.id}>
-                                <td>{index + 1}</td>
+                                <td>{(page - 1) * limit + index + 1}</td>
                                 <td>{new Date(history.created_at).toLocaleString("en-IN")}</td>
                                 <td>{history.product}</td>
                                 <td>{history.sku}</td>
