@@ -21,6 +21,33 @@
     text-transform: uppercase;
 }
 
+.admLowStkAlert-search {
+    margin-top: 20px;
+}
+
+.admLowStkAlert-search > input {
+    height: 35px;
+    border: none;
+    background-color: #ddd;
+    width: 100%;
+    outline: none;
+    color: #000;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.admLowStkAlert-search > input:active {
+    border: none;
+    outline: none;
+}
+
+.admLowStkAlert-controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+
 .admLowStkAlert-dash-table table {
     margin-top: 20px;
     width: 100%;
@@ -37,4 +64,45 @@
 .admLowStkAlert-dash-table th {
     background-color: #1e293b;
     color: white;
+}
+
+.status{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.out-of-stock{
+    background:#ffdddd;
+    color:#c40000;
+}
+
+.low-stock{
+    background:#fff3cd;
+    color:#b56a00;
+}
+
+.minimum-level{
+    background:#d4edda;
+    color:#0b7a33;
+}
+
+.admLowStkAlert-pagination { 
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.admLowStkAlert-pagination span {
+    color: #1e293b;
+}
+
+.admLowStkAlert-pagination button {
+    border: none;
+    padding: 6px 6px;
+    background: none;
+    color: #ddd;
+    background-color: #1e293b;
+    border-radius: 8px;
 }

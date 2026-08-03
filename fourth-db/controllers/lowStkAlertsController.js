@@ -2,17 +2,25 @@ const lowStckAlertModel = require('../models/lowStockAlertsModel');
 const {lowStockAlert} = require('../services/inventoryService')
 
 exports.getLowStockProducts = async (req, res) => {
-    try {
-        const lowStockProducts = await lowStckAlertModel.getLowStockProducts();
+    const {search = '', page = 1, sort = 'newest', limit = 10} = req.query;
 
-        const products = lowStockProducts.map(product => ({
+    try {
+        const lowStockProducts = await lowStckAlertModel.getLowStockProducts(search, Number(page), sort, Number(limit));
+
+        const products = lowStockProducts.rows.map(product => ({
             ...product,
-            status: lowStockAlert(product.stock_quantity, product.minimum_stock)
+            status: lowStockAlert(product.stock_quantity, product.minimum_stock),
         }))
         
         return res.status(200).json({
             success: true,
-            data: products
+            data: products,
+            pagination: {
+                page: Number(page),
+                limit: Number(limit),
+                totalPages: Math.ceil(lowStockProducts.total / limit),
+                totalRecords: lowStockProducts.total
+            }
         })
     } catch (err) {
         console.error(err);
