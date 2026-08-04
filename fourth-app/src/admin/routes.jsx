@@ -1,7 +1,7 @@
 import AdminLayout from "./layout/AdminLayout";
 import ProtectedRoute from "../shared/guards/ProtectedRoute";
 
-import HeroDashboard from "../features/hero/pages/HeroDashboard";
+import HeroDashboard from "./pages/home-hero/HeroDashboard";
 
 import AdminCategory from "./pages/categories/AdminCategory";
 import AdminBrands from "./pages/brands/AdminBrands";

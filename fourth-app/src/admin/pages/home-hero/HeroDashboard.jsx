@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import './heroDashboard.css'
 
-import HeroForm from "../components/HeroForm";
+import HeroForm from "../../components/home-hero/HeroForm";
 
-import { getAllHeroes, heroDelete } from "../api/heroApi";
+import { getAllHeroes, heroDelete } from "../../api/homeHeroApi";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";

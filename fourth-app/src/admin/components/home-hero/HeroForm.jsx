@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import './heroForm.css';
 
-import { heroAdd, heroUpdate } from "../api/heroApi";
+import './heroForm.css'
+
+import { heroAdd, heroUpdate } from "../../api/homeHeroApi";
 
 export default function HeroForm({onSuccess, editHero, setEditHero}) {
 

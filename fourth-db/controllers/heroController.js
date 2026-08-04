@@ -2,32 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const heroModel = require('../models/heroModel');
 
-exports.getHeroById = async (req, res) => {
-    const [id] = req.params;
-
-    try {
-        const hero = await heroModel.getHeroById(id);
-        
-        if (!hero) {
-            return res.status(404).json({
-                success: false,
-                message: 'No hero found'
-            })
-        }
-
-        return res.status(200).json({
-            success: true,
-            data: hero
-        })
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: 'Please try again later'
-        })
-    }
-}
-
 exports.addHero = async (req, res) => {
     const {title, subtitle, button_text, button_url} = req.body;
     const image = req.file ? req.file.filename : null;

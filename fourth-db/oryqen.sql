@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2026 at 12:58 PM
+-- Generation Time: Aug 04, 2026 at 01:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -176,7 +176,8 @@ CREATE TABLE `hero_slides` (
 --
 
 INSERT INTO `hero_slides` (`id`, `title`, `subtitle`, `image`, `button_text`, `button_url`, `display_order`, `is_active`, `created_at`, `updated_at`) VALUES
-(17, 'title', 'subtitle', '1782456547789.png', 'Buy', '/products', 0, 1, '2026-06-26 06:49:07', '2026-06-26 06:52:22');
+(18, 'Title', 'Subtitle', '1785825444529.png', 'Buy', '/products', 0, 1, '2026-08-04 06:37:24', '2026-08-04 06:37:24'),
+(19, 'Title', 'Subtitle', '1785828079868.png', 'Buy', '/products', 0, 1, '2026-08-04 07:21:19', '2026-08-04 07:21:19');
 
 -- --------------------------------------------------------
 
@@ -468,7 +469,7 @@ ALTER TABLE `category_attributes`
 -- AUTO_INCREMENT for table `hero_slides`
 --
 ALTER TABLE `hero_slides`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `products`

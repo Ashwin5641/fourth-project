@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import './AdmStkDashboard.css';
 
-import { getStockDashboard, updateStkOfPrdctVrnt } from "../../api/AdmStkDshbrdApi";
+import { getStockDashboard, updateStkOfPrdctVrnt } from "../../api/admStkDshbrdApi";
 
 export default function AdmStkDashboard() {
 
